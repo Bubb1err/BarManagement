@@ -1,12 +1,24 @@
-﻿namespace BarManagment.Domain.Entities
+﻿using BarManagment.Domain.Entities.Base;
+
+namespace BarManagment.Domain.Entities
 {
-    public sealed class WorkSchedule
+    public sealed class WorkSchedule : Entity
     {
-        public int WorkScheduleId { get; set; }
-        public DateTime StartDateTime { get; set; }
-        public DateTime EndDateTime { get; set; }
+        public WorkSchedule(
+            Guid id, 
+            DateTime startDateTime, 
+            DateTime endDateTime, 
+            User user)
+            : base (id)
+        {
+            StartDateTime = startDateTime;
+            EndDateTime = endDateTime;
+            UserId = user.Id;
+        }
+        public DateTime StartDateTime { get; private set; }
+        public DateTime EndDateTime { get; private set; }
 
         //foreign 
-        public int UserId { get; set; }
+        public Guid UserId { get; private set; }
     }
 }

@@ -1,11 +1,23 @@
-﻿namespace BarManagment.Domain.Entities
+﻿using BarManagment.Domain.Entities.Base;
+
+namespace BarManagment.Domain.Entities
 {
-    public sealed class DrinksBought
+    public sealed class DrinksBought : Entity
     {
-        public int DrinksBoughtId { get; set; }
-        public int Amount { get; set; }
+        public DrinksBought(
+            Guid id,
+            int amount, 
+            ServingDrink drink, 
+            Receipt receipt)
+            : base(id)
+        {
+             Amount = amount;
+            ServingDrinkId = drink.Id;
+            ReceiptId = receipt.Id;
+        }
+        public int Amount { get; private set; }
         //foreign 
-        public int ServingDrinkId { get; set; }
-        public int ReceiptId { get; set; }
+        public Guid ServingDrinkId { get; private set; }
+        public Guid ReceiptId { get; private set; }
     }
 }

@@ -1,10 +1,18 @@
-﻿namespace BarManagment.Domain.Entities
+﻿using BarManagment.Domain.Entities.Base;
+
+namespace BarManagment.Domain.Entities
 {
-    public sealed class Receipt
+    public sealed class Receipt : Entity
     {
-        public int ReceiptId { get; set; }
+        public Receipt(
+            Guid id,
+            User user)
+            : base (id)
+        {
+            UserId = id;
+        }
 
         //foreign 
-        public int UserId { get; set; }
+        public Guid UserId { get; private set; }
     }
 }

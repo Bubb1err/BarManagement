@@ -1,13 +1,25 @@
 ﻿
+using BarManagment.Domain.Entities.Base;
+
 namespace BarManagment.Domain.Entities
 {
-    public sealed class SupplySpendings
+    public sealed class SupplySpendings : Entity
     {
-        public int SupplySpendingId { get; set; }
-        public DateTime DateOfBuy { get; set; }
-        public int Amount { get; set; }
+        public SupplySpendings(
+            Guid id, 
+            DateTime dateOfBuy, 
+            int amount, 
+            Supply supply)
+            : base(id)
+        {
+            DateOfBuy = dateOfBuy;
+            Amount = amount;
+            SupplyId = supply.Id;
+        }
+        public DateTime DateOfBuy { get; private set; }
+        public int Amount { get; private set; }
         //foreign 
-        public int SupplyId { get; set; }
+        public Guid SupplyId { get; private set; }
 
     }
 }

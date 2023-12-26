@@ -1,10 +1,20 @@
 ﻿
+using BarManagment.Domain.Entities.Base;
+
 namespace BarManagment.Domain.Entities
 {
-    public sealed class Supply
+    public sealed class Supply : Entity
     {
-        public int SupplyId { get; set; }
-        public string Name { get; set; }
-        public double PricePerOne { get; set; }
+        public Supply(
+            Guid id, 
+            string name, 
+            double pricePerOne)
+            : base (id)
+        {
+            Name = name;
+            PricePerOne = pricePerOne;
+        }
+        public string Name { get; private set; }
+        public double PricePerOne { get;  private set; }
     }
 }

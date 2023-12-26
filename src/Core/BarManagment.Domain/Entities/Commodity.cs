@@ -1,12 +1,24 @@
-﻿namespace BarManagment.Domain.Entities
+﻿using BarManagment.Domain.Entities.Base;
+
+namespace BarManagment.Domain.Entities
 {
-    public sealed class Commodity
+    public sealed class Commodity : Entity
     {
-        public int CommodityId { get; set; }
-        public string CommodityName { get; set; }
-        public double Price { get; set; }
+        public Commodity(
+            Guid id, 
+            string commodityName, 
+            double price, 
+            CommodityType commodityType)
+            : base(id)
+        {
+            CommodityName = commodityName;
+            Price = price;
+            CommodityTypeId = commodityType.Id;
+        }
+        public string CommodityName { get; private set; }
+        public double Price { get; private set; }
 
         //foreign
-        public int CommodityTypeId { get; set;}
+        public Guid CommodityTypeId { get; private set;}
     }
 }
