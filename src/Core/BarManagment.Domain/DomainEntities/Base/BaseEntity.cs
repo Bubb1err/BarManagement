@@ -1,10 +1,10 @@
-﻿namespace BarManagment.Domain.Entities.Base
+﻿namespace BarManagment.Domain.DomainEntities.Base
 {
-    public abstract class Entity : IEquatable<Entity>
+    public class BaseEntity : IEquatable<BaseEntity>
     {
         public Guid Id { get; private init; }
 
-        protected Entity(Guid id)
+        protected BaseEntity(Guid id)
         {
             Id = id;
         }
@@ -12,18 +12,18 @@
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
-            
+
             if (obj.GetType() != GetType()) return false;
 
-            if (obj is not Entity entity) return false;
+            if (obj is not BaseEntity entity) return false;
 
             return entity.Id == Id;
         }
-        public static bool operator ==(Entity? first, Entity? second)
+        public static bool operator ==(BaseEntity? first, BaseEntity? second)
         {
             return first is not null && second is not null && first.Equals(second);
         }
-        public static bool operator !=(Entity? first, Entity? second)
+        public static bool operator !=(BaseEntity? first, BaseEntity? second)
         {
             return !(first == second);
         }
@@ -33,7 +33,7 @@
             return Id.GetHashCode() * 37;
         }
 
-        public bool Equals(Entity? other)
+        public bool Equals(BaseEntity? other)
         {
             if (other == null) return false;
 
