@@ -1,0 +1,21 @@
+﻿using BarManagment.Domain.DomainEntities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace BarManagment.Presentation.Configurations
+{
+    internal class CoctailIngredientEntityConfiguration : IEntityTypeConfiguration<CoctailIngredient>
+    {
+        public void Configure(EntityTypeBuilder<CoctailIngredient> builder)
+        {
+            builder.HasKey(ingredient => ingredient.Id);
+
+            builder.HasOne<Commodity>()
+                .WithMany()
+                .HasForeignKey(ingredient => ingredient.CommodityId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(ingredient => ingredient.AmountInDefaultMeasure).IsRequired();
+        }
+    }
+}

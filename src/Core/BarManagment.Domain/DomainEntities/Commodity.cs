@@ -19,10 +19,12 @@ namespace BarManagment.Domain.DomainEntities
             Price = price;
             Description = description;
             DefaultMeasureId = defaultMeasure.Id;
+            DefaultMeasure = defaultMeasure;
         }
         public string Title { get; private set; }
         public decimal Price { get; private set; }
         public string? Description { get; private set; }
         public Guid DefaultMeasureId { get; private set; }
+        public DefaultMeasure DefaultMeasure { get; private set; }
     }
 }
