@@ -12,6 +12,7 @@ namespace BarManagment.Domain.DomainEntities
         {
             Measure = measure;
         }
+        private DefaultMeasure() { }
         public string Measure {  get; private set; }
     }
 }

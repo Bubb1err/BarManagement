@@ -8,8 +8,9 @@ namespace BarManagment.Domain.DomainEntities
         public User(
             Guid id) : base(id) 
         {
-            
+            Schedule = new List<BarmenSchedule>();
         }
-
+        private User () { }
+        public ICollection<BarmenSchedule> Schedule { get; private set; }
     }
 }

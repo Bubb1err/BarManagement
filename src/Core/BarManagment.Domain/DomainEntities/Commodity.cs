@@ -21,6 +21,7 @@ namespace BarManagment.Domain.DomainEntities
             DefaultMeasureId = defaultMeasure.Id;
             DefaultMeasure = defaultMeasure;
         }
+        private Commodity() { }
         public string Title { get; private set; }
         public decimal Price { get; private set; }
         public string? Description { get; private set; }

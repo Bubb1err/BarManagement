@@ -19,6 +19,7 @@ namespace BarManagment.Domain.DomainEntities
             Coctails = new List<Coctail>();
             BarmenId = barmen.Id;
         }
+        private Receipt() { }
         public DateTime? PaidTime { get; private set; }
         public bool IsPaid { get; private set; }
         public ICollection<Drink> Drinks { get; private set; }

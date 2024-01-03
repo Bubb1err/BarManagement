@@ -16,6 +16,7 @@ namespace BarManagment.Domain.DomainEntities
             Price = price;
             Ingredients = new List<CoctailIngredient>();
         }
+        private Coctail() { }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

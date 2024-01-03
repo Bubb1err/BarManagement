@@ -13,6 +13,7 @@ namespace BarManagment.Domain.DomainEntities
             CommodityId = commodity.Id;
             AmountInDefaultMeasure = amount;
         }
+        private CoctailIngredient() { }
         public Guid CommodityId { get; private set; }
         public double AmountInDefaultMeasure { get; private set; }
     }

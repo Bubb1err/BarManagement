@@ -7,7 +7,7 @@ namespace BarManagment.Presentation
 {
     public class BarDbContext : DbContext, IDbContext
     {
-        public BarDbContext(DbContextOptions options) : base(options) { }
+        public BarDbContext(DbContextOptions<BarDbContext> options) : base(options) { }
         public new DbSet<TEntity> Set<TEntity>()
             where TEntity : BaseEntity
             => base.Set<TEntity>();

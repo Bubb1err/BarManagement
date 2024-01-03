@@ -15,6 +15,7 @@ namespace BarManagment.Domain.DomainEntities
             EndDate = endDate;
             UserId = barmen.Id;
         }
+        private BarmenSchedule() { }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
         //foreign
