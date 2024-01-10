@@ -1,17 +1,15 @@
-﻿
-
-using BarManagment.Domain.DomainEntities.Base;
+﻿using BarManagment.Domain.DomainEntities.Base;
 
 namespace BarManagment.Domain.DomainEntities
 {
     //vodka, konyak, juice...
     public sealed class Commodity : BaseEntity
     {
-        public Commodity(
+        private Commodity(
             Guid id, 
             string title,
             decimal price, 
-            string description, 
+            string? description, 
             DefaultMeasure defaultMeasure)
             :base (id)
         {
@@ -27,5 +25,23 @@ namespace BarManagment.Domain.DomainEntities
         public string? Description { get; private set; }
         public Guid DefaultMeasureId { get; private set; }
         public DefaultMeasure DefaultMeasure { get; private set; }
+        public static Commodity Create(string title, decimal price, DefaultMeasure defaultMeasure, string? description)
+        {
+            return new Commodity(
+                Guid.NewGuid(),
+                title,
+                price,
+                description,
+                defaultMeasure);
+        }
+        public static Commodity Update(Commodity commodity, string title, decimal price, DefaultMeasure defaultMeasure, string? description)
+        {
+            commodity.Title = title;
+            commodity.Price = price;
+            commodity.Description = description;
+            commodity.DefaultMeasure = defaultMeasure;
+            commodity.DefaultMeasureId = defaultMeasure.Id;
+            return commodity;
+        }
     }
 }

@@ -23,8 +23,4 @@
     <ProjectReference Include="..\External\BarManagment.Presentation\BarManagment.Presentation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
