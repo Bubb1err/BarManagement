@@ -1,3 +1,4 @@
+using BarManagement.API.Middlewares;
 using BarManagment.Application;
 using BarManagment.Presentation;
 
@@ -30,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors();
+
+app.UseExceptionHandling();
 
 app.UseHttpsRedirection();
 
