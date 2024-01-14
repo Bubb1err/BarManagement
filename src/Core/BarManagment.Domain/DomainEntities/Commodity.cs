@@ -34,14 +34,13 @@ namespace BarManagment.Domain.DomainEntities
                 description,
                 defaultMeasure);
         }
-        public static Commodity Update(Commodity commodity, string title, decimal price, DefaultMeasure defaultMeasure, string? description)
+        public void Update(string title, decimal price, DefaultMeasure defaultMeasure, string? description)
         {
-            commodity.Title = title;
-            commodity.Price = price;
-            commodity.Description = description;
-            commodity.DefaultMeasure = defaultMeasure;
-            commodity.DefaultMeasureId = defaultMeasure.Id;
-            return commodity;
+            Title = title;
+            Price = price;
+            Description = description;
+            DefaultMeasure = defaultMeasure;
+            DefaultMeasureId = defaultMeasure.Id;
         }
     }
 }

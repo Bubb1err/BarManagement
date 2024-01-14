@@ -1,4 +1,5 @@
 ﻿using BarManagment.Application.Commoditys.Commands.SaveCommodity;
+using BarManagment.Application.Commoditys.Commands.UpdateCommodity;
 using BarManagment.Application.Commoditys.Queries.GetAllCommodity;
 using BarManagment.Application.Commoditys.Queries.GetCommodityById;
 using BarManagment.Domain.DomainEntities;
@@ -32,10 +33,16 @@ namespace BarManagement.API.Controllers
             var commodity = await _mediator.Send(getCommodityByIdQuery);
             return Ok(commodity);
         }
-        [HttpPut]
-        public async Task<IActionResult> SaveCommodity([FromBody]SaveCommodityCommand saveCommodityCommand)
+        [HttpPost]
+        public async Task<IActionResult> AddCommodity([FromBody]SaveCommodityCommand saveCommodityCommand)
         {
             var commodity = await _mediator.Send(saveCommodityCommand);
+            return Ok(commodity);
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateCommodity([FromBody]UpdateCommodityCommand updateCommodityCommand)
+        {
+            var commodity = await _mediator.Send(updateCommodityCommand);
             return Ok(commodity);
         }
     }

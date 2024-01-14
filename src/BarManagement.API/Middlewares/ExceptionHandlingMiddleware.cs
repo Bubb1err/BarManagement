@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using BarManagement.API.Models;
+using BarManagment.Domain.Exceptions;
 
 namespace BarManagement.API.Middlewares
 {
@@ -22,6 +23,12 @@ namespace BarManagement.API.Middlewares
             {
                 await _next(httpContext);
             }
+            catch (ExecutingException ex)
+            {
+                _logger.LogError(ex, "An exception occurred: {Message}", ex.Message);
+
+                await HandleExceptionAsync(httpContext, ex);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An exception occurred: {Message}", ex.Message);
@@ -36,6 +43,16 @@ namespace BarManagement.API.Middlewares
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             string response = JsonSerializer.Serialize(new ErrorResponse(HttpStatusCode.InternalServerError, "Error occurred"));
+
+            await httpContext.Response.WriteAsync(response);
+        }
+        private static async Task HandleExceptionAsync(HttpContext httpContext, ExecutingException exception)
+        {
+            httpContext.Response.ContentType = "application/json";
+
+            httpContext.Response.StatusCode = (int)exception.StatusCode;
+
+            string response = JsonSerializer.Serialize(new ErrorResponse(exception.StatusCode, exception.ErrorMessage));
 
             await httpContext.Response.WriteAsync(response);
         }

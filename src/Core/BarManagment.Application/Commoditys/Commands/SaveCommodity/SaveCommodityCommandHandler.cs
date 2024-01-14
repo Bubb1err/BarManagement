@@ -18,20 +18,20 @@ namespace BarManagment.Application.Commoditys.Commands.SaveCommodity
         }
         public async Task<Commodity> Handle(SaveCommodityCommand request, CancellationToken cancellationToken)
         {
-            var commodity = await _commodityRepository.GetFirstOrDefaultAsync(c => c.Id == request.Id);
+            //var commodity = await _commodityRepository.GetFirstOrDefaultAsync(c => c.Id == request.Id);
 
             var defaultMeasure = await _measureRepository.GetFirstOrDefaultAsync(measure => measure.Id == request.DefaultMeasureId);
 
-            if (commodity is null)
-            {
-                commodity = Commodity.Create(request.Title, request.Price, defaultMeasure, request.Description);
+            //if (commodity is null)
+            //{
+                var commodity = Commodity.Create(request.Title, request.Price, defaultMeasure, request.Description);
                 await _commodityRepository.AddAsync(commodity);
-            }
-            else
-            {
-                Commodity.Update(commodity, request.Title, request.Price, defaultMeasure, request.Description);
-                _commodityRepository.Update(commodity);
-            }
+            //}
+            //else
+            //{
+            //    Commodity.Update(commodity, request.Title, request.Price, defaultMeasure, request.Description);
+            //    _commodityRepository.Update(commodity);
+            //}
 
             await _commodityRepository.SaveChangesAsync();
 

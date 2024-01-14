@@ -18,6 +18,8 @@ namespace BarManagment.Presentation
 
             services.AddScoped<IRepository<Commodity>, BaseRepository<Commodity>>();
             services.AddScoped<IRepository<DefaultMeasure>, BaseRepository<DefaultMeasure>>();
+            services.AddScoped<IRepository<Coctail>, BaseRepository<Coctail>>();
+            services.AddScoped<IRepository<CoctailIngredient>, BaseRepository<CoctailIngredient>>();
 
             return services;
         }
