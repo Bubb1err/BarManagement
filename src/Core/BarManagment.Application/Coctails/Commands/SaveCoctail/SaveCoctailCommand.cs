@@ -1,4 +1,5 @@
-﻿using BarManagment.Domain.DomainEntities;
+﻿using BarManagment.Application.DTO.Coctail;
+using BarManagment.Domain.DomainEntities;
 using MediatR;
 
 namespace BarManagment.Application.Coctails.Commands.SaveCoctail
@@ -9,7 +10,7 @@ namespace BarManagment.Application.Coctails.Commands.SaveCoctail
             string name,
             string description,
             decimal price,
-            IEnumerable<CoctailIngredient> ingredients)
+            IEnumerable<SaveCoctailIngredientDTO> ingredients)
         {
             Name = name;
             Description = description;
@@ -19,6 +20,6 @@ namespace BarManagment.Application.Coctails.Commands.SaveCoctail
         public string Name { get; }
         public string Description { get; }
         public decimal Price { get; }
-        public IEnumerable<CoctailIngredient> Ingredients { get; }
+        public IEnumerable<SaveCoctailIngredientDTO> Ingredients { get; }
     }
 }

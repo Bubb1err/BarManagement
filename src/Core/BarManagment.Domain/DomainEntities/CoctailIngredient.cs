@@ -6,15 +6,22 @@ namespace BarManagment.Domain.DomainEntities
     {
         public CoctailIngredient(
             Guid id, 
-            Commodity commodity, 
-            double amount)
+            Guid commodityId, 
+            double amount,
+            Guid coctailId)
             : base(id)
         {
-            CommodityId = commodity.Id;
+            CommodityId = commodityId;
             AmountInDefaultMeasure = amount;
+            CoctailId = coctailId;
         }
         private CoctailIngredient() { }
+        public Guid CoctailId { get; private set; }
         public Guid CommodityId { get; private set; }
         public double AmountInDefaultMeasure { get; private set; }
+        public static CoctailIngredient Create(Guid commodityId, int amountInDefaultMeasure, Guid coctailId)
+        {
+            return new CoctailIngredient(Guid.NewGuid(), commodityId, amountInDefaultMeasure, coctailId);
+        }
     }
 }

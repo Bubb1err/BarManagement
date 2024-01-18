@@ -18,10 +18,17 @@ namespace BarManagment.Application.Coctails.Commands.SaveCoctail
         }
         public async Task<Coctail> Handle(SaveCoctailCommand request, CancellationToken cancellationToken)
         {
-           Guid[] ids = request.Ingredients.Select(ingredient => ingredient.Id).ToArray();
-           var ingredients = _ingredientsRepository.GetAll(ingedient => ids.Contains(ingedient.Id));
+            var coctail = Coctail.Create(request.Name, request.Description, request.Price);
 
-            var coctail = Coctail.Create(request.Name, request.Description, request.Price, ingredients);
+            if (request.Ingredients != null && request.Ingredients.Any())
+            {
+                IEnumerable<CoctailIngredient> ingredientsList = request.Ingredients.Select(ingredient => 
+                    CoctailIngredient.Create(ingredient.CommodityId, ingredient.AmountInDefaultMeasure, coctail.Id));
+
+                await _ingredientsRepository.AddRangeAsync(ingredientsList);
+                coctail.AddIngredients(ingredientsList);
+            }
+
             await _coctailRepository.AddAsync(coctail);
 
             await _coctailRepository.SaveChangesAsync();

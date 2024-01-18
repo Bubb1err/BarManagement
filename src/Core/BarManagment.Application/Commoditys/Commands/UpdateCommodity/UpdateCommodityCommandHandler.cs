@@ -22,14 +22,14 @@ namespace BarManagment.Application.Commoditys.Commands.UpdateCommodity
         {
             var commodity = await _commodityRepository.GetFirstOrDefaultAsync(c => c.Id == request.Id);
 
-            if (commodity == null)
+            if (commodity is null)
             {
               throw new ExecutingException($"Commodity with id {request.Id} was not found.", System.Net.HttpStatusCode.NotFound);
             }
 
             var defaultMeasure = await _measureRepository.GetFirstOrDefaultAsync(measure => measure.Id == request.DefaultMeasureId);
 
-            if (defaultMeasure == null)
+            if (defaultMeasure is null)
             {
               throw new ExecutingException($"Measure with id {request.DefaultMeasureId} was not found.", System.Net.HttpStatusCode.NotFound);
             }
