@@ -23,7 +23,7 @@ namespace BarManagment.Presentation.Configurations
 
             builder.Property(drink => drink.AmountInDefaultMeasure).IsRequired();
 
-            builder.HasOne<Commodity>()
+            builder.HasOne(drink => drink.Commodity)
                 .WithMany()
                 .HasForeignKey(drink => drink.CommodityId)
                 .OnDelete(DeleteBehavior.NoAction);

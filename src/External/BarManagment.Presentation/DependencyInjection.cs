@@ -20,6 +20,7 @@ namespace BarManagment.Presentation
             services.AddScoped<IRepository<DefaultMeasure>, BaseRepository<DefaultMeasure>>();
             services.AddScoped<IRepository<Coctail>, BaseRepository<Coctail>>();
             services.AddScoped<IRepository<CoctailIngredient>, BaseRepository<CoctailIngredient>>();
+            services.AddScoped<IRepository<Drink>, BaseRepository<Drink>>();
 
             return services;
         }
