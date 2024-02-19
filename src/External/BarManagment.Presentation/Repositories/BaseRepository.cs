@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
-namespace BarManagment.Presentation.Repositories
+namespace BarManagment.Persistance.Repositories
 {
     public class BaseRepository<T> : IRepository<T> 
         where T : BaseEntity

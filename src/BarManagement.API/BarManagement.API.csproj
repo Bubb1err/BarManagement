@@ -23,7 +23,7 @@
     <ProjectReference Include="..\Core\BarManagment.Application\BarManagment.Application.csproj" />
     <ProjectReference Include="..\Core\BarManagment.Domain\BarManagment.Domain.csproj" />
     <ProjectReference Include="..\External\BarManagment.Infrastructure\BarManagment.Infrastructure.csproj" />
-    <ProjectReference Include="..\External\BarManagment.Presentation\BarManagment.Presentation.csproj" />
+    <ProjectReference Include="..\External\BarManagment.Presentation\BarManagment.Persistance.csproj" />
   </ItemGroup>
 
 </Project>

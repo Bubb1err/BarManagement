@@ -5,7 +5,7 @@ namespace BarManagment.Domain.DomainEntities
     //ml, bottle
     public sealed class DefaultMeasure : BaseEntity
     {
-        public DefaultMeasure(
+        private DefaultMeasure(
             Guid id, 
             string measure) 
             : base(id)

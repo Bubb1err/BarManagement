@@ -3,7 +3,7 @@ using BarManagment.Domain.DomainEntities.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace BarManagment.Presentation
+namespace BarManagment.Persistance
 {
     public class BarDbContext : DbContext, IDbContext
     {

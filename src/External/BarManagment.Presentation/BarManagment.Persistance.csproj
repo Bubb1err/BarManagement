@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BarManagment.Application\BarManagment.Application.csproj" />
+    <ProjectReference Include="..\..\Core\BarManagment.Domain\BarManagment.Domain.csproj" />
   </ItemGroup>
 
 </Project>

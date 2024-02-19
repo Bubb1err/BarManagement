@@ -4,7 +4,7 @@ namespace BarManagment.Domain.DomainEntities
 {
     public sealed class Coctail : BaseEntity
     {
-        public Coctail(
+        private Coctail(
             Guid id, 
             string name, 
             string description,

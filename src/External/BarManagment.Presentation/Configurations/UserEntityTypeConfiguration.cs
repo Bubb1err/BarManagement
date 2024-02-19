@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BarManagment.Presentation.Configurations
+namespace BarManagment.Persistance.Configurations
 {
     internal class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
@@ -10,9 +10,24 @@ namespace BarManagment.Presentation.Configurations
         {
             builder.HasKey(user => user.Id);
 
-            builder.HasMany(user => user.Schedule)
+            builder.Property(user => user.Name).IsRequired();
+
+            builder.Property(user => user.Surname).IsRequired();
+
+            builder.Property(user => user.Patronymic).IsRequired();
+
+            builder.Property(user => user.CompanyCode).IsRequired();
+
+            builder.Property(user => user.Email).IsRequired();
+
+            builder.HasMany(user => user.Schedules)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property<string>("_passwordHash")
+                    .HasField("_passwordHash")
+                    .HasColumnName("PasswordHash")
+                    .IsRequired();
         }
     }
 }

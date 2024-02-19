@@ -1,15 +1,13 @@
-﻿
-
-using BarManagment.Domain.DomainEntities.Base;
+﻿using BarManagment.Domain.DomainEntities.Base;
 
 namespace BarManagment.Domain.DomainEntities
 {
     public sealed class Receipt : BaseEntity
     {
-        public Receipt(
-            Guid id, 
-            User barmen, 
-            DateTime? paidTime = null, 
+        private Receipt(
+            Guid id,
+            User barmen,
+            DateTime? paidTime = null,
             bool isPaid = false)
             : base(id)
         {

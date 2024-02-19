@@ -20,5 +20,6 @@ namespace BarManagment.Domain.DomainEntities
         public DateTime EndDate { get; private set; }
         //foreign
         public Guid UserId { get; private set; }
+        public bool ReadOnly { get; private set; }
     }
 }

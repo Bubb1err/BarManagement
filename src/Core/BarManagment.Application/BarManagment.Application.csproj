@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BarManagment.Contracts\BarManagment.Contracts.csproj" />
     <ProjectReference Include="..\BarManagment.Domain\BarManagment.Domain.csproj" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ namespace BarManagment.Domain.DomainEntities
 {
     public sealed class CoctailIngredient : BaseEntity
     {
-        public CoctailIngredient(
+        private CoctailIngredient(
             Guid id, 
             Guid commodityId, 
             double amount,

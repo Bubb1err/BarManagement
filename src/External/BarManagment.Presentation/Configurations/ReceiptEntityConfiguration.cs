@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BarManagment.Presentation.Configurations
+namespace BarManagment.Persistance.Configurations
 {
     internal class ReceiptEntityConfiguration : IEntityTypeConfiguration<Receipt>
     {

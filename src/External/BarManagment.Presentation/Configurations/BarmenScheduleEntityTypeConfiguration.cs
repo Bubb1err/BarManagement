@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BarManagment.Presentation.Configurations
+namespace BarManagment.Persistance.Configurations
 {
     internal class BarmenScheduleEntityTypeConfiguration : IEntityTypeConfiguration<BarmenSchedule>
     {
@@ -15,7 +15,7 @@ namespace BarManagment.Presentation.Configurations
             builder.Property(schedule => schedule.EndDate).IsRequired();
 
             builder.HasOne<User>()
-                .WithMany(user => user.Schedule)
+                .WithMany(user => user.Schedules)
                 .HasForeignKey(schedule => schedule.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
