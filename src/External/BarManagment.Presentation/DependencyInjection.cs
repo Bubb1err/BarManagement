@@ -22,6 +22,7 @@ namespace BarManagment.Persistance
             services.AddScoped<IRepository<CoctailIngredient>, BaseRepository<CoctailIngredient>>();
             services.AddScoped<IRepository<Drink>, BaseRepository<Drink>>();
             services.AddScoped<IRepository<User>, BaseRepository<User>>();
+            services.AddScoped<IRepository<Receipt>, BaseRepository<Receipt>>();
 
 
 

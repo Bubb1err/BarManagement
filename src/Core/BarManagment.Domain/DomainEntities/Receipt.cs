@@ -17,11 +17,25 @@ namespace BarManagment.Domain.DomainEntities
             Coctails = new List<Coctail>();
             BarmenId = barmen.Id;
         }
+
         private Receipt() { }
+
         public DateTime? PaidTime { get; private set; }
+
         public bool IsPaid { get; private set; }
-        public ICollection<Drink> Drinks { get; private set; }
-        public ICollection<Coctail> Coctails { get; private set; }
+
+        public IEnumerable<Drink> Drinks { get; private set; }
+
+        public IEnumerable<Coctail> Coctails { get; private set; }
+
         public Guid BarmenId { get; private set; }
+
+        public static Receipt Create(DateTime? paidTime, User barmen, bool isPaid, List<Drink> drinks, List<Coctail> coctails)
+        {
+            var receipt = new Receipt(Guid.NewGuid(), barmen, paidTime, isPaid);
+            receipt.Drinks.ToList().AddRange(drinks);
+            receipt.Coctails.ToList().AddRange(coctails);
+            return receipt;
+        }
     }
 }

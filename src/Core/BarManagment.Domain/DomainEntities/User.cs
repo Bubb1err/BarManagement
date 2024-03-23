@@ -47,6 +47,11 @@ namespace BarManagment.Domain.DomainEntities
             return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, Guid.NewGuid().ToString(), passwordHashed);
         }
 
+        public static User CreateWorker(string name, string surname, string patronymic, string email, string phoneNumber, string companyCode, string passwordHashed)
+        {
+            return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, companyCode, passwordHashed);
+        }
+
         public bool VerifyPasswordHash(string password, IPasswordHashChecker passwordHashChecker)
             => !string.IsNullOrWhiteSpace(password) && passwordHashChecker.HashesMatch(_passwordHash, password);
     }

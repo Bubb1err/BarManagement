@@ -1,6 +1,8 @@
 ﻿using BarManagment.Application.Users.Login;
 using BarManagment.Application.Users.Register;
+using BarManagment.Contracts.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarManagement.API.Controllers
@@ -26,6 +28,14 @@ namespace BarManagement.API.Controllers
         public async Task<IActionResult> Login([FromBody]LoginCommand loginCommand)
         {
             return Ok(await _mediator.Send(loginCommand));
+        }
+
+        [HttpPost("api/worker")]
+        [Authorize]
+        public async Task<IActionResult> CreateWorker([FromBody]CreateWorkerModel createWorkerModel)
+        {
+            var claims = HttpContext.User.Claims;
+            return Ok();
         }
     }
 }
