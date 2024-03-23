@@ -19,12 +19,19 @@ namespace BarManagment.Domain.DomainEntities
             DefaultMeasureId = defaultMeasure.Id;
             DefaultMeasure = defaultMeasure;
         }
+
         private Commodity() { }
+
         public string Title { get; private set; }
+
         public decimal Price { get; private set; }
+
         public string? Description { get; private set; }
+
         public Guid DefaultMeasureId { get; private set; }
+
         public DefaultMeasure DefaultMeasure { get; private set; }
+
         public static Commodity Create(string title, decimal price, DefaultMeasure defaultMeasure, string? description)
         {
             return new Commodity(
@@ -34,6 +41,7 @@ namespace BarManagment.Domain.DomainEntities
                 description,
                 defaultMeasure);
         }
+
         public void Update(string title, decimal price, DefaultMeasure defaultMeasure, string? description)
         {
             Title = title;
