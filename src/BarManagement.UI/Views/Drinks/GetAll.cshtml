@@ -1,0 +1,74 @@
+﻿﻿
+
+@model IEnumerable<BarManagement.UI.Models.Drinks.GetDrinksViewModel>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Drinks
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Drinks" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Add Drink
+            </a>
+        </div>
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Measure
+                </th>
+                <th>
+                    Commodity
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Id
+                    </td>
+                    <td>
+                        @obj.Name
+                    </td>
+                    <td>
+                        @obj.Description
+                    </td>
+                    <td>
+                        @obj.Price
+                    </td>
+                    <td>
+                        @obj.Commodity.DefaultMeasure.Measure
+                    </td>
+                    <td>
+                        @obj.Commodity.Title
+                    </td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Drinks" asp-action="Update" asp-route-id="@obj.Id" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> &nbsp;Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
