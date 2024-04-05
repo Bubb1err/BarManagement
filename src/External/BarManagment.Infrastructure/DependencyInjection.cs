@@ -1,11 +1,15 @@
 ﻿using BarManagment.Application.Core.Abstractions.Authentication;
+using BarManagment.Application.Core.Abstractions.BuyingServices;
 using BarManagment.Application.Core.Abstractions.Common;
 using BarManagment.Application.Core.Abstractions.Cryptography;
+using BarManagment.Application.Core.Abstractions.Email;
 using BarManagment.Domain.Services;
 using BarManagment.Infrastructure.Authentication;
 using BarManagment.Infrastructure.Authentication.Settings;
 using BarManagment.Infrastructure.Common;
 using BarManagment.Infrastructure.Cryptography;
+using BarManagment.Infrastructure.Email;
+using BarManagment.Infrastructure.ReceiptServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +44,10 @@ namespace BarManagment.Infrastructure
             services.AddTransient<IPasswordHashChecker, PasswordHasher>();
 
             services.AddTransient<IDateTime, MachineDateTime>();
+
+            services.AddScoped<IAvailabilityServiceCheck, AvailabilityServiceCheck>();
+
+            services.AddScoped<IEmailSender, EmailSender>();
 
             return services;
         }

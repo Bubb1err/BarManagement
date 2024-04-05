@@ -11,7 +11,7 @@ namespace BarManagment.Application.Users.Worker
             string email,
             string phone,
             string password,
-            string adminEmail)
+            Guid adminId)
         {
             Name = name;
             Surname = surname;
@@ -19,7 +19,7 @@ namespace BarManagment.Application.Users.Worker
             Email = email;
             Phone = phone;
             Password = password;
-            AdminEmail = adminEmail;
+            AdminId = adminId;
 
         }
         public string Name { get; }
@@ -34,6 +34,6 @@ namespace BarManagment.Application.Users.Worker
 
         public string Password { get; }
 
-        public string AdminEmail { get; }
+        public Guid AdminId { get; }
     }
 }

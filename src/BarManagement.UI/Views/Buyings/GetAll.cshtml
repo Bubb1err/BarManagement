@@ -1,0 +1,77 @@
+﻿﻿
+
+@model IEnumerable<BarManagement.UI.Models.Buyings.BuyingViewModel>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Buyings
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Buyings" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Add Buying
+            </a>
+        </div>
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Commodity
+                </th>
+                <th>
+                    Measure
+                </th>
+                <th>
+                    PurchaseDate
+                </th>
+                <th>
+                    AvailableAmount
+                </th>
+                <th>
+                    PurchaseAmount
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Id
+                    </td>
+                    <td>
+                        @obj.Commodity.Title
+                    </td>
+                    <td>
+                        @obj.Commodity.DefaultMeasure.Measure
+                    </td>
+                    <td>
+                        @obj.PurchaseDate.ToLongDateString();
+                    </td>
+                    <td>
+                        @obj.AvailableAmount
+                    </td>
+                    <td>
+                        @obj.PurchaseAmount
+                    </td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Buyings" asp-action="Update" asp-route-id="@obj.Id" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> &nbsp;Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

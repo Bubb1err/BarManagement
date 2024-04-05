@@ -10,7 +10,7 @@ namespace BarManagment.Persistance.Configurations
         {
             builder.HasKey(ingredient => ingredient.Id);
 
-            builder.HasOne<Commodity>()
+            builder.HasOne(ingredient => ingredient.Commodity)
                 .WithMany()
                 .HasForeignKey(ingredient => ingredient.CommodityId)
                 .OnDelete(DeleteBehavior.NoAction);

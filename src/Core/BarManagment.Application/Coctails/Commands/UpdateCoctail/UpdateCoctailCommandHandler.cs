@@ -10,13 +10,16 @@ namespace BarManagment.Application.Coctails.Commands.UpdateCoctail
     {
         private readonly IRepository<Coctail> _coctailRepository;
         private readonly IRepository<CoctailIngredient> _ingredientsRepository;
+        private readonly IRepository<Commodity> _commodityRepository;
 
         public UpdateCoctailCommandHandler(
              IRepository<Coctail> coctailRepository,
-            IRepository<CoctailIngredient> ingredientsRepository)
+            IRepository<CoctailIngredient> ingredientsRepository,
+            IRepository<Commodity> commodityRepository)
         {
             _coctailRepository = coctailRepository;
             _ingredientsRepository = ingredientsRepository;
+            _commodityRepository = commodityRepository;
         }
         public async Task<Coctail> Handle(UpdateCoctailCommand request, CancellationToken cancellationToken)
         {
@@ -29,11 +32,23 @@ namespace BarManagment.Application.Coctails.Commands.UpdateCoctail
 
             var ingredientsToAdd = request.Ingredients.Where(ingredient => ingredient.Id is null);
 
-            if (ingredientsToAdd != null && ingredientsToAdd.Any())
+            if (ingredientsToAdd is not null && ingredientsToAdd.Any())
             {
-                var ingredients = ingredientsToAdd.Select(ingredient => CoctailIngredient.Create(ingredient.CommodityId, ingredient.AmountInDefaultMeasure, coctail.Id));
-                await _ingredientsRepository.AddRangeAsync(ingredients);
-                coctail.AddIngredients(ingredients);
+                List<CoctailIngredient> ingredientsList = new();
+
+                foreach (var ingredient in ingredientsToAdd)
+                {
+                    var commodity = await _commodityRepository.GetFirstOrDefaultAsync(commodity => commodity.Id == ingredient.CommodityId);
+                    if (commodity is null)
+                    {
+                        throw new ExecutingException($"Commodity with id {ingredient.CommodityId} does not exist.", System.Net.HttpStatusCode.BadRequest);
+                    }
+
+                    ingredientsList.Add(CoctailIngredient.Create(commodity, ingredient.AmountInDefaultMeasure, coctail.Id));
+                }
+
+                await _ingredientsRepository.AddRangeAsync(ingredientsList);
+                coctail.AddIngredients(ingredientsList);
             }
 
             coctail.Update(request.Name, request.Description, request.Price);

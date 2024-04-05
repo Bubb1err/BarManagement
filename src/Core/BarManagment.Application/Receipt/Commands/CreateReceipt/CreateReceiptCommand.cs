@@ -6,17 +6,22 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
     {
         public CreateReceiptCommand(
             bool isPaid,
-            string[] coctailIds,
-            string[] drinkIds)
+            Guid[] coctailIds,
+            Guid[] drinkIds,
+            Guid barmenId)
         {
             IsPaid = isPaid;
             CoctailIds = coctailIds;
             DrinkIds = drinkIds;
+            BarmenId = barmenId;
+
         }
         public bool IsPaid { get; set; }
 
-        public string[] CoctailIds { get; set; }
+        public Guid[] CoctailIds { get; set; }
 
-        public string[] DrinkIds { get; set; }
+        public Guid[] DrinkIds { get; set; }
+
+        public Guid BarmenId { get; set; }
     }
 }

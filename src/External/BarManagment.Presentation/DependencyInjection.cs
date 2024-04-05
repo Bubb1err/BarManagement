@@ -1,4 +1,5 @@
-﻿using BarManagment.Domain.Abstractions.Repository.Base;
+﻿using BarManagment.Domain.Abstractions.Repository;
+using BarManagment.Domain.Abstractions.Repository.Base;
 using BarManagment.Domain.DomainEntities;
 using BarManagment.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +24,8 @@ namespace BarManagment.Persistance
             services.AddScoped<IRepository<Drink>, BaseRepository<Drink>>();
             services.AddScoped<IRepository<User>, BaseRepository<User>>();
             services.AddScoped<IRepository<Receipt>, BaseRepository<Receipt>>();
-
-
+            services.AddScoped<IBuyingsRepository, BuyingsRepository>();
+            services.AddScoped<IRepository<BarmenSchedule>, BaseRepository<BarmenSchedule>>();
 
             return services;
         }

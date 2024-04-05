@@ -4,7 +4,7 @@ namespace BarManagment.Domain.DomainEntities
 {
     public sealed class BarmenSchedule : BaseEntity
     {
-        public BarmenSchedule(
+        private BarmenSchedule(
             Guid id, 
             DateTime startDate, 
             DateTime endDate, 
@@ -15,11 +15,18 @@ namespace BarManagment.Domain.DomainEntities
             EndDate = endDate;
             UserId = barmen.Id;
         }
+
         private BarmenSchedule() { }
+
         public DateTime StartDate { get; private set; }
+
         public DateTime EndDate { get; private set; }
-        //foreign
+
         public Guid UserId { get; private set; }
-        public bool ReadOnly { get; private set; }
+
+        public static BarmenSchedule Create(DateTime startDate, DateTime endDate, User barmen)
+        {
+            return new BarmenSchedule(Guid.NewGuid(), startDate, endDate, barmen);
+        }
     }
 }

@@ -29,5 +29,25 @@ namespace BarManagment.Domain.DomainEntities
         public double AvailableAmount { get; private set; }
 
         public double PurchaseAmount { get; private set; }
+
+        public static Buying Create(Guid id, Commodity commodity, DateTime purchaseDate, double availableAmount, double purchaseAmount)
+        {
+            return new Buying(
+                id,
+                commodity,
+                purchaseDate,
+                availableAmount,
+                purchaseAmount);
+        } 
+
+        public void UpdateAmount(double usedAmount)
+        {
+            if (usedAmount > AvailableAmount)
+            {
+                throw new ArgumentOutOfRangeException("Cannot update amount. Too little available amount");
+            }
+
+            AvailableAmount -= usedAmount;
+        }
     }
 }

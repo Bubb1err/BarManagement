@@ -1,0 +1,43 @@
+﻿using BarManagement.UI.Models.ApiErrors;
+using BarManagement.UI.Models.Coctails;
+using BarManagement.UI.Models.Commodity;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+namespace BarManagement.UI.Controllers
+{
+    public class CoctailsController : Controller
+    {
+        private readonly IConfiguration _configuration;
+
+        public CoctailsController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            var response = await client.GetAsync(_configuration["BarManagementAPI:CoctailsEndpoint"]);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<IEnumerable<CoctailViewModel>>(responseContent);
+
+                return View(responseObject);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View();
+            }
+        }
+    }
+}
