@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BarManagment.Persistance.Configurations
 {
-    internal class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+    internal sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -28,6 +28,11 @@ namespace BarManagment.Persistance.Configurations
                     .HasField("_passwordHash")
                     .HasColumnName("PasswordHash")
                     .IsRequired();
+
+            builder.HasOne(user => user.Role)
+                .WithMany()
+                .HasForeignKey(user => user.RoleId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using BarManagment.Application.Core.Abstractions.Authentication;
+using BarManagment.Contracts.Authentication;
 using BarManagment.Domain.Abstractions.Repository.Base;
 using BarManagment.Domain.DomainEntities;
 using BarManagment.Domain.Exceptions;
 using BarManagment.Domain.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace BarManagment.Application.Users.Login
 {
-    internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, string>
+    internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, TokenResponse>
     {
         private readonly IRepository<User> _usersRepository;
         private readonly IJwtProvider _jwtProvider;
@@ -22,9 +24,10 @@ namespace BarManagment.Application.Users.Login
             _jwtProvider = jwtProvider;
             _passwordHashChecker = passwordHashChecker;
         }
-        public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<TokenResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _usersRepository.GetFirstOrDefaultAsync(user => user.Email == request.Email);
+            var userExist = await _usersRepository.GetFirstOrDefaultAsync(user => user.Email == request.Email, 
+                include: i => i.Include(user => user.Role));
 
             if (userExist == null)
             {
@@ -39,7 +42,7 @@ namespace BarManagment.Application.Users.Login
             }
 
             var token = _jwtProvider.Create(userExist);
-            return token;
+            return new TokenResponse(token);
         }
     }
 }

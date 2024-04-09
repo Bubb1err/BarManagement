@@ -21,7 +21,16 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("manager", policy => policy.RequireRole("Manager"));
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("barmen", policy => policy.RequireRole("Barmen"));
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

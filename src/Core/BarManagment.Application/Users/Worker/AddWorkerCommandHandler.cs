@@ -1,6 +1,7 @@
 ﻿using BarManagment.Application.Core.Abstractions.Authentication;
 using BarManagment.Application.Core.Abstractions.Cryptography;
 using BarManagment.Application.Core.Abstractions.Email;
+using BarManagment.Contracts.Constants;
 using BarManagment.Domain.Abstractions.Repository.Base;
 using BarManagment.Domain.DomainEntities;
 using BarManagment.Domain.Exceptions;
@@ -14,17 +15,20 @@ namespace BarManagment.Application.Users.Worker
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtProvider _jwtProvider;
         private readonly IEmailSender _emailSender;
+        private readonly IRepository<Role> _rolesRepository;
 
         public AddWorkerCommandHandler(
             IRepository<User> usersRepository,
             IPasswordHasher passwordHasher,
             IJwtProvider jwtProvider,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IRepository<Role> rolesRepository)
         {
             _usersRepository = usersRepository;
             _passwordHasher = passwordHasher;
             _jwtProvider = jwtProvider;
             _emailSender = emailSender;
+            _rolesRepository = rolesRepository;
         }
 
         public async Task Handle(AddWorkerCommand request, CancellationToken cancellationToken)
@@ -43,7 +47,14 @@ namespace BarManagment.Application.Users.Worker
 
             string passwordHashed = _passwordHasher.HashPassword(request.Password);
 
-            var user = User.CreateWorker(request.Name, request.Surname, request.Patronymic, request.Email, request.Phone, admin.CompanyCode, passwordHashed);
+            var barmenRole = await _rolesRepository.GetFirstOrDefaultAsync(role => role.Title == UserRoles.Barmen);
+
+            if (barmenRole is null)
+            {
+                throw new ExecutingException("Something went wrong.", System.Net.HttpStatusCode.InternalServerError);
+            }
+
+            var user = User.CreateWorker(request.Name, request.Surname, request.Patronymic, request.Email, request.Phone, admin.CompanyCode, passwordHashed, barmenRole);
             await _usersRepository.AddAsync(user);
             await _usersRepository.SaveChangesAsync();
 

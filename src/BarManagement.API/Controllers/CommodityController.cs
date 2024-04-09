@@ -4,6 +4,7 @@ using BarManagment.Application.Commoditys.Queries.GetAllCommodity;
 using BarManagment.Application.Commoditys.Queries.GetCommodityById;
 using BarManagment.Domain.DomainEntities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarManagement.API.Controllers
@@ -33,6 +34,8 @@ namespace BarManagement.API.Controllers
             var commodity = await _mediator.Send(getCommodityByIdQuery);
             return Ok(commodity);
         }
+
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public async Task<IActionResult> AddCommodity([FromBody]SaveCommodityCommand saveCommodityCommand)
         {

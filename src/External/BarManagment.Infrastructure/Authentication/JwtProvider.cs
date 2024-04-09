@@ -32,7 +32,8 @@ namespace BarManagment.Infrastructure.Authentication
             {
                 new Claim("userId", user.Id.ToString()),
                 new Claim("email", user.Email),
-                new Claim("name", user.Name)
+                new Claim("name", user.Name),
+                new Claim("role", user.Role.Title.ToString())
             };
 
             DateTime tokenExpirationTime = _dateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpirationInMinutes);
@@ -45,7 +46,7 @@ namespace BarManagment.Infrastructure.Authentication
                 tokenExpirationTime,
                 signingCredentials);
 
-            string tokenValue = new JwtSecurityTokenHandler().WriteToken(token); // add manager role
+            string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
             return tokenValue;
         }

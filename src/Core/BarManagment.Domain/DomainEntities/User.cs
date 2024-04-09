@@ -14,7 +14,8 @@ namespace BarManagment.Domain.DomainEntities
             string email,
             string phoneNumber, 
             string companyCode,
-            string passwordHash) : base(id) 
+            string passwordHash,
+            Role role) : base(id) 
         {
             Name = name;
             Surname = surname;
@@ -24,6 +25,8 @@ namespace BarManagment.Domain.DomainEntities
             CompanyCode = companyCode;
             Schedules = new List<BarmenSchedule>();
             _passwordHash = passwordHash;
+            Role = role;
+            RoleId = role.Id;
         }
 
         private User() { }
@@ -42,14 +45,18 @@ namespace BarManagment.Domain.DomainEntities
 
         public IEnumerable<BarmenSchedule> Schedules { get; private set; }
 
-        public static User CreateManager(string name, string surname, string patronymic, string email, string phoneNumber, string passwordHashed)
+        public Guid RoleId { get; private set; }
+
+        public Role Role { get; private set; }
+
+        public static User CreateManager(string name, string surname, string patronymic, string email, string phoneNumber, string passwordHashed, Role role)
         {
-            return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, Guid.NewGuid().ToString(), passwordHashed);
+            return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, Guid.NewGuid().ToString(), passwordHashed, role);
         }
 
-        public static User CreateWorker(string name, string surname, string patronymic, string email, string phoneNumber, string companyCode, string passwordHashed)
+        public static User CreateWorker(string name, string surname, string patronymic, string email, string phoneNumber, string companyCode, string passwordHashed, Role role)
         {
-            return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, companyCode, passwordHashed);
+            return new User(Guid.NewGuid(), name, surname, patronymic, email, phoneNumber, companyCode, passwordHashed, role);
         }
 
         public bool VerifyPasswordHash(string password, IPasswordHashChecker passwordHashChecker)

@@ -31,6 +31,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="GetAll">Drinks</a>
                         </li>
+                        @if (Cookies.GetCookie(CookiesNames.Role) == "Manager") {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="GetAll">Drinks</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

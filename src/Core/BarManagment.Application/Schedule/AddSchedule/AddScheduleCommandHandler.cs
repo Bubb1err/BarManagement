@@ -27,7 +27,11 @@ namespace BarManagment.Application.Schedule.AddSchedule
                 throw new ExecutingException($"User with id {request.BarmenId} was not found.", System.Net.HttpStatusCode.BadRequest);
             }
 
-            var schedule = BarmenSchedule.Create(request.StartDate, request.EndDate);
+            var schedule = BarmenSchedule.Create(request.StartDate, request.EndDate, barmen);
+            await _barmenScheduleRepository.AddAsync(schedule);
+            await _barmenScheduleRepository.SaveChangesAsync();
+
+            return schedule;
         }
     }
 }
