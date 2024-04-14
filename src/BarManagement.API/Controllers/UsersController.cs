@@ -1,5 +1,7 @@
-﻿using BarManagment.Application.Users.Login;
+﻿using BarManagment.Application.Users.GetWorkers;
+using BarManagment.Application.Users.Login;
 using BarManagment.Application.Users.Register;
+using BarManagment.Application.Users.Worker;
 using BarManagment.Contracts.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,11 +33,19 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpPost("api/worker")]
-        [Authorize]
-        public async Task<IActionResult> CreateWorker([FromBody]CreateWorkerModel createWorkerModel)
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> CreateWorker([FromBody]AddWorkerCommand addWorkerCommand)
         {
-            var claims = HttpContext.User.Claims;
+            await _mediator.Send(addWorkerCommand);
             return Ok();
+        }
+
+        [HttpGet("api/workers")]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> GetWorkers([FromQuery]Guid adminId)
+        {
+            var getUsersQuery = new GetWorkersQuery(adminId);
+            return Ok(await _mediator.Send(getUsersQuery));
         }
     }
 }

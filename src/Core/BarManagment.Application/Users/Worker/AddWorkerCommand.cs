@@ -20,7 +20,6 @@ namespace BarManagment.Application.Users.Worker
             Phone = phone;
             Password = password;
             AdminId = adminId;
-
         }
         public string Name { get; }
 

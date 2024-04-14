@@ -18,7 +18,7 @@ namespace BarManagment.Infrastructure.Email
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var mailMessage = new MimeMessage();
-            mailMessage.From.Add(MailboxAddress.Parse(_config.GetSection("EmailSender").Value));
+            mailMessage.From.Add(MailboxAddress.Parse("timcenkovaleria79@gmail.com"));
             mailMessage.Subject = subject;
             mailMessage.To.Add(MailboxAddress.Parse(email));
             mailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

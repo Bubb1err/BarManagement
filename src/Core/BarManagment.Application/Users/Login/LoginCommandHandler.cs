@@ -29,7 +29,7 @@ namespace BarManagment.Application.Users.Login
             var userExist = await _usersRepository.GetFirstOrDefaultAsync(user => user.Email == request.Email, 
                 include: i => i.Include(user => user.Role));
 
-            if (userExist == null)
+            if (userExist is null)
             {
                 throw new ExecutingException($"User does not exists.", System.Net.HttpStatusCode.Unauthorized);
             }

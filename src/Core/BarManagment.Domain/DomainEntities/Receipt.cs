@@ -30,6 +30,12 @@ namespace BarManagment.Domain.DomainEntities
 
         public Guid BarmenId { get; private set; }
 
+        public void Pay()
+        {
+            IsPaid = true;
+            PaidTime = DateTime.Now;
+        }
+
         public static Receipt Create(DateTime? paidTime, User barmen, bool isPaid, List<Drink> drinks, List<Coctail> coctails)
         {
             var receipt = new Receipt(Guid.NewGuid(), barmen, paidTime, isPaid);

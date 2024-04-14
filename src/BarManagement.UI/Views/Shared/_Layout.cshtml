@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,9 +33,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="GetAll">Drinks</a>
                         </li>
-                        @if (Cookies.GetCookie(CookiesNames.Role) == "Manager") {
+                        @{
+                            var role = Context.Request.Cookies["Role"];
+                        }
+
+                        @if (role == "Manager")
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="GetAll">Drinks</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Authentication" asp-action="GetWorkers">Workers</a>
                             </li>
                         }
                     </ul>
