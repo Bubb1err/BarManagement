@@ -1,0 +1,95 @@
+﻿﻿
+
+@model BarManagement.UI.Models.Receipt.CreateReceiptViewModel;
+
+<form method="post" asp-controller="Receipt" asp-action="Create" onsubmit="submitForm(event)">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class=" text-primary">
+                Create Receipt
+            </h2>
+            <hr />
+        </div>
+        <div>
+            <h4>Drinks</h4>
+            <button type="button" class="btn btn-primary" onclick="addDrink()">
+                Add drink
+            </button>
+            <div class="drink-ids mt-2 mb-2" id="drink-ids">
+            </div>
+        </div>
+        <div>
+            <h4>Coctails</h4>
+            <button type="button" class="btn btn-primary" onclick="addCoctail()">
+                Add coctail
+            </button>
+            <div class="coctail-ids mt-2 mb-2" id="coctail-ids">
+            </div>
+        </div>
+        <div id="hidden-inputs-container" style="display: none;"></div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="Receipt" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
+            Back To List
+        </a>
+    </div>
+</form>
+@section Scripts {
+    @{
+                <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script>
+        const drinksContainer = document.getElementById('drink-ids');
+        function addDrink() {
+            var div = document.createElement('div');
+            var input = document.createElement('input');
+            input.placeholder ='Enter drink id'
+            input.type = 'text';
+            div.classList.add('mb-2');
+            div.appendChild(input)
+            drinksContainer.appendChild(div);
+        }
+
+        const coctailsContainer = document.getElementById('coctail-ids');
+        function addCoctail() {
+            var div = document.createElement('div');
+            var input = document.createElement('input');
+            input.placeholder='Enter coctail id'
+            input.type = 'text';
+            div.classList.add('mb-2');
+            div.appendChild(input)
+            coctailsContainer.appendChild(div);
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+
+            var drinkInputs = document.querySelectorAll('.drink-ids input[type="text"]');
+            var cocktailInputs = document.querySelectorAll('.coctail-ids input[type="text"]');
+
+            var hiddenInputsContainer = document.getElementById('hidden-inputs-container');
+
+            hiddenInputsContainer.innerHTML = '';
+
+            drinkInputs.forEach(function (input) {
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'DrinkIds';
+                hiddenInput.value = input.value.trim();
+                hiddenInputsContainer.appendChild(hiddenInput);
+            });
+
+            cocktailInputs.forEach(function (input) {
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'CoctailIds';
+                hiddenInput.value = input.value.trim();
+                hiddenInputsContainer.appendChild(hiddenInput);
+            });
+
+            document.querySelector('form').submit();
+        }
+    </script>
+
+}

@@ -1,6 +1,8 @@
-﻿using BarManagement.UI.Models.ApiErrors;
+﻿using BarManagement.UI.Constants;
+using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Coctails;
 using BarManagement.UI.Models.Commodity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -19,6 +21,8 @@ namespace BarManagement.UI.Controllers
         public async Task<IActionResult> GetAll()
         {
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var response = await client.GetAsync(_configuration["BarManagementAPI:CoctailsEndpoint"]);
 

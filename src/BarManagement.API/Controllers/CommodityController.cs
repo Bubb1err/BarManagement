@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BarManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommodityController : ControllerBase

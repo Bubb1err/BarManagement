@@ -1,6 +1,8 @@
-﻿using BarManagement.UI.Models.ApiErrors;
+﻿using BarManagement.UI.Constants;
+using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Authentication;
 using BarManagement.UI.Models.Commodity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -20,6 +22,8 @@ namespace BarManagement.UI.Controllers
         public async Task<IActionResult> GetAll()
         {
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var response = await client.GetAsync(_configuration["BarManagementAPI:CommodityEndpoint"]);
 
@@ -55,6 +59,8 @@ namespace BarManagement.UI.Controllers
                 return View(createCommodityViewModel);
             }
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var json = JsonConvert.SerializeObject(createCommodityViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -81,6 +87,8 @@ namespace BarManagement.UI.Controllers
         public async Task<IActionResult> Update(string id)
         {
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var response = await client.GetAsync($"{_configuration["BarManagementAPI:CommodityEndpoint"]}/{id}");
 
@@ -110,6 +118,8 @@ namespace BarManagement.UI.Controllers
                 return View(updateCommodityViewModel);
             }
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var json = JsonConvert.SerializeObject(updateCommodityViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

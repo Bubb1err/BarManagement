@@ -1,4 +1,5 @@
-﻿using BarManagement.UI.Models.ApiErrors;
+﻿using BarManagement.UI.Constants;
+using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Commodity;
 using BarManagement.UI.Models.Drinks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,38 @@ namespace BarManagement.UI.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Search([FromBody] string search)
+        {
+            HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:SearchDrinks"]}?search={search}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<IEnumerable<string>>(responseContent);
+
+                return View(responseObject);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View();
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var response = await client.GetAsync(_configuration["BarManagementAPI:DrinksEndpoint"]);
 
@@ -55,6 +85,8 @@ namespace BarManagement.UI.Controllers
                 return View(createDrinkViewModel);
             }
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var json = JsonConvert.SerializeObject(createDrinkViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -81,6 +113,8 @@ namespace BarManagement.UI.Controllers
         public async Task<IActionResult> Update(string id)
         {
             HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             var response = await client.GetAsync($"{_configuration["BarManagementAPI:DrinksEndpoint"]}/{id}");
 

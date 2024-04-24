@@ -15,9 +15,14 @@ namespace BarManagment.Infrastructure.ReceiptServices
 
         public async Task<bool> CheckIfCommodityAvailable(Commodity commodity, double amountRequired)
         {
-            double leftAmount = await _buyingsRepository.GetLeftAmount(commodity.Id);
+            var lastBuying = await _buyingsRepository.GetLastBuying(commodity.Id);
 
-            return leftAmount >= amountRequired;
+            if (lastBuying is null)
+            {
+                return false;
+            }
+
+            return lastBuying.AvailableAmount >= amountRequired;
         }
     }
 }

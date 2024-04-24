@@ -7,6 +7,7 @@ namespace BarManagment.Domain.DomainEntities
         private Receipt(
             Guid id,
             User barmen,
+            DateTime created,
             DateTime? paidTime = null,
             bool isPaid = false)
             : base(id)
@@ -16,11 +17,14 @@ namespace BarManagment.Domain.DomainEntities
             Drinks = new List<Drink>();
             Coctails = new List<Coctail>();
             BarmenId = barmen.Id;
+            Created = created;
         }
 
         private Receipt() { }
 
         public DateTime? PaidTime { get; private set; }
+
+        public DateTime Created { get; private set; }
 
         public bool IsPaid { get; private set; }
 
@@ -38,7 +42,7 @@ namespace BarManagment.Domain.DomainEntities
 
         public static Receipt Create(DateTime? paidTime, User barmen, bool isPaid, List<Drink> drinks, List<Coctail> coctails)
         {
-            var receipt = new Receipt(Guid.NewGuid(), barmen, paidTime, isPaid);
+            var receipt = new Receipt(Guid.NewGuid(), barmen, DateTime.Now, paidTime, isPaid);
             receipt.Drinks.ToList().AddRange(drinks);
             receipt.Coctails.ToList().AddRange(coctails);
             return receipt;

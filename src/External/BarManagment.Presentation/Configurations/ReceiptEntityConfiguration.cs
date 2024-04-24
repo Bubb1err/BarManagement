@@ -12,6 +12,8 @@ namespace BarManagment.Persistance.Configurations
 
             builder.Property(receipt => receipt.PaidTime).HasDefaultValue(null);
 
+            builder.Property(receipt => receipt.Created).IsRequired();
+
             builder.Property(receipt => receipt.IsPaid).HasDefaultValue(false);
 
             builder.HasMany(receipt => receipt.Coctails)

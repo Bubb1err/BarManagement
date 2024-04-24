@@ -2,11 +2,14 @@
 using BarManagment.Application.Drinks.Commands.UpdateDrink;
 using BarManagment.Application.Drinks.Queries.GetDrinkById;
 using BarManagment.Application.Drinks.Queries.GetDrinks;
+using BarManagment.Application.Drinks.Queries.Search;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -29,6 +32,14 @@ namespace BarManagement.API.Controllers
             var drinks = await _mediator.Send(new GetDrinksQuery());
             return Ok(drinks);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchDrink([FromQuery]string search)
+        {
+            var searchDrinksQuery = new GetDrinkBySearchQuery(search);
+            return Ok(await _mediator.Send(searchDrinksQuery));
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveDrink([FromBody]SaveDrinkCommand saveDrinkCommand)
         {

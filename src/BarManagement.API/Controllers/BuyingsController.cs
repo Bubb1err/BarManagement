@@ -1,10 +1,12 @@
 ﻿using BarManagment.Application.Buyings.Commands.SaveBuying;
 using BarManagment.Application.Buyings.Queries.GetBuyings;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BarManagement.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BuyingsController : ControllerBase

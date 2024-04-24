@@ -62,7 +62,7 @@ namespace BarManagement.UI.Controllers
 
                 Response.Cookies.Append(CookiesNames.Role, role);
 
-                return RedirectToAction("GetAll", "Commodity");
+                return RedirectToAction("GetAll", "Receipt");
             }
             else
             {
@@ -116,7 +116,7 @@ namespace BarManagement.UI.Controllers
 
                 Response.Cookies.Append(CookiesNames.Role, role);
 
-                return RedirectToAction("GetAll", "Commodity");
+                return RedirectToAction("GetAll", "Receipt");
             }
             else
             {

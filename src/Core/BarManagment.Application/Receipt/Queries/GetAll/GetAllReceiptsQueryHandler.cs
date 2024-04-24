@@ -21,7 +21,9 @@ namespace BarManagment.Application.Receipt.Queries.GetAll
 
         public async Task<IEnumerable<Domain.DomainEntities.Receipt>> Handle(GetAllReceiptsQuery request, CancellationToken cancellationToken)
         {
-            return await _receiptRepository.GetAll().ToListAsync();
+            DateTime today = DateTime.Today;
+
+            return await _receiptRepository.GetAll().OrderByDescending(r => r.IsPaid).ToListAsync();
         }
     }
 }

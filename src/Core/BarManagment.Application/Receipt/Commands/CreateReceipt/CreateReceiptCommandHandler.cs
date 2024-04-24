@@ -40,7 +40,8 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
                 throw new ExecutingException($"Barmen with id {request.BarmenId} was not found.", System.Net.HttpStatusCode.BadRequest);
             }
 
-            var drinks = await _drinksRepository.GetAll(drink => request.DrinkIds.Contains(drink.Id)).ToListAsync();
+            var drinks = await _drinksRepository.GetAll(drink => request.DrinkIds.Contains(drink.Id),
+                include: i => i.Include(drink => drink.Commodity)).ToListAsync();
             if (drinks is not null)
             {
                 foreach (var drink in drinks)
@@ -63,7 +64,8 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
                 }
             }
 
-            var coctails = await _coctailsRepository.GetAll(coctail => request.CoctailIds.Contains(coctail.Id)).ToListAsync();
+            var coctails = await _coctailsRepository.GetAll(coctail => request.CoctailIds.Contains(coctail.Id),
+                include: i => i.Include(coctail => coctail.Ingredients).ThenInclude(ingredient => ingredient.Commodity)).ToListAsync();
 
             foreach(var coctail in coctails)
             {
