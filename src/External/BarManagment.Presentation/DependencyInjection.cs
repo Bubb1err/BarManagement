@@ -27,6 +27,7 @@ namespace BarManagment.Persistance
             services.AddScoped<IBuyingsRepository, BuyingsRepository>();
             services.AddScoped<IRepository<BarmenSchedule>, BaseRepository<BarmenSchedule>>();
             services.AddScoped<IRepository<Role>, BaseRepository<Role>>();
+            services.AddScoped<IReceiptRepository, ReceiptRepository>();
 
             return services;
         }

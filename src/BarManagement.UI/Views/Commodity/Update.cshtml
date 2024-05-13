@@ -1,42 +1,45 @@
 ﻿@model BarManagement.UI.Models.Commodity.UpdateCommodityViewModel;
 
-<form method="post" asp-controller="Commodity" asp-action="Update">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class=" text-primary">
-                Edit Commodity
-            </h2>
-            <hr />
+<div class="container">
+    <form method="post" asp-controller="Commodity" asp-action="Update">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2>
+                    Edit Commodity
+                </h2>
+                <hr />
+            </div>
+            <div>
+                <input asp-for="Id" class="form-control" hidden />
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Description">Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="DefaultMeasureId">Default Measure Id</label>
+                <input asp-for="DefaultMeasureId" class="form-control" />
+                <span asp-validation-for="DefaultMeasureId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom" style="width:150px">Update</button>
+            <a asp-controller="Commodity" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
+                Back To List
+            </a>
         </div>
-        <div>
-            <input asp-for="Id" class="form-control" hidden />
-        </div>
-        <div class=" mb-3">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="Price">Price</label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="Description">Description</label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="DefaultMeasureId">Default Measure Id</label>
-            <input asp-for="DefaultMeasureId" class="form-control" />
-            <span asp-validation-for="DefaultMeasureId" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-        <a asp-controller="Commodity" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
-            Back To List
-        </a>
-    </div>
-</form>
+    </form>
+</div>
+
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />

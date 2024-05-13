@@ -2,37 +2,40 @@
 
 @model BarManagement.UI.Models.Receipt.CreateReceiptViewModel;
 
-<form method="post" asp-controller="Receipt" asp-action="Create" onsubmit="submitForm(event)">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class=" text-primary">
-                Create Receipt
-            </h2>
-            <hr />
-        </div>
-        <div>
-            <h4>Drinks</h4>
-            <button type="button" class="btn btn-primary" onclick="addDrink()">
-                Add drink
-            </button>
-            <div class="drink-ids mt-2 mb-2" id="drink-ids">
+<div class="container">
+    <form method="post" asp-controller="Receipt" asp-action="Create" onsubmit="submitForm(event)">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2>
+                    Create Receipt
+                </h2>
+                <hr />
             </div>
-        </div>
-        <div>
-            <h4>Coctails</h4>
-            <button type="button" class="btn btn-primary" onclick="addCoctail()">
-                Add coctail
-            </button>
-            <div class="coctail-ids mt-2 mb-2" id="coctail-ids">
+            <div>
+                <h4>Drinks</h4>
+                <button type="button" class="btn btn-primary" onclick="addDrink()">
+                    Add drink
+                </button>
+                <div class="drink-ids mt-2 mb-2" id="drink-ids">
+                </div>
             </div>
+            <div>
+                <h4>Coctails</h4>
+                <button type="button" class="btn btn-primary" onclick="addCoctail()">
+                    Add coctail
+                </button>
+                <div class="coctail-ids mt-2 mb-2" id="coctail-ids">
+                </div>
+            </div>
+            <div id="hidden-inputs-container" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary btn-custom" style="width:150px">Create</button>
+            <a asp-controller="Receipt" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
+                Back To List
+            </a>
         </div>
-        <div id="hidden-inputs-container" style="display: none;"></div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-        <a asp-controller="Receipt" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
-            Back To List
-        </a>
-    </div>
-</form>
+    </form>
+</div>
+
 @section Scripts {
     @{
                 <partial name="_ValidationScriptsPartial" />

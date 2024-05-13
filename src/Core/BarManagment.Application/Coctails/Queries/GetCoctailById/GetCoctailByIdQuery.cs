@@ -1,9 +1,10 @@
-﻿using BarManagment.Domain.DomainEntities;
+﻿using BarManagment.Contracts.Coctails;
+using BarManagment.Domain.DomainEntities;
 using MediatR;
 
 namespace BarManagment.Application.Coctails.Queries.GetCoctailById
 {
-    public class GetCoctailByIdQuery : IRequest<Coctail>
+    public class GetCoctailByIdQuery : IRequest<GetCoctailDetailsViewModel>
     {
         public GetCoctailByIdQuery(Guid id)
         {

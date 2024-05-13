@@ -1,13 +1,9 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BarManagment.Domain.Models.Buyings;
+using MediatR;
 
 namespace BarManagment.Application.Buyings.Queries.GetSpendings
 {
-    public sealed class GetSpendingsQuery : IRequest
+    public sealed class GetSpendingsQuery : IRequest<IEnumerable<SpendingViewModel>>
     {
     }
 }

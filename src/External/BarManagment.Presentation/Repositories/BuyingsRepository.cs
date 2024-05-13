@@ -1,5 +1,6 @@
 ﻿using BarManagment.Domain.Abstractions.Repository;
 using BarManagment.Domain.DomainEntities;
+using BarManagment.Domain.Models.Buyings;
 using Microsoft.EntityFrameworkCore;
 
 namespace BarManagment.Persistance.Repositories
@@ -35,6 +36,14 @@ namespace BarManagment.Persistance.Repositories
                .SingleOrDefaultAsync();
 
             return buying;
+        }
+
+        public IQueryable<SpendingViewModel> GetSpendings()
+        {
+            var spendings = _context.Database
+                .SqlQuery<SpendingViewModel>($@"EXEC [dbo].[GetSpendings]");
+
+            return spendings;
         }
     }
 }

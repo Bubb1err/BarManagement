@@ -2,45 +2,48 @@
 
 @model BarManagement.UI.Models.Drinks.CreateDrinkViewModel;
 
-<form method="post" asp-controller="Drinks" asp-action="Create">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class=" text-primary">
-                Create Drink
-            </h2>
-            <hr />
+<div class="container">
+    <form method="post" asp-controller="Drinks" asp-action="Create">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2>
+                    Create Drink
+                </h2>
+                <hr />
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Description">Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="CommodityId">CommodityId</label>
+                <input asp-for="CommodityId" class="form-control" />
+                <span asp-validation-for="CommodityId" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="AmountInDefaultMeasure">AmountInDefaultMeasure</label>
+                <input asp-for="AmountInDefaultMeasure" class="form-control" />
+                <span asp-validation-for="AmountInDefaultMeasure" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom" style="width:150px">Create</button>
+            <a asp-controller="Drinks" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
+                Back To List
+            </a>
         </div>
-        <div class=" mb-3">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="Description">Description</label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="Price">Price</label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="CommodityId">CommodityId</label>
-            <input asp-for="CommodityId" class="form-control" />
-            <span asp-validation-for="CommodityId" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="AmountInDefaultMeasure">AmountInDefaultMeasure</label>
-            <input asp-for="AmountInDefaultMeasure" class="form-control" />
-            <span asp-validation-for="AmountInDefaultMeasure" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-        <a asp-controller="Drinks" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
-            Back To List
-        </a>
-    </div>
-</form>
+    </form>
+</div>
+
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />

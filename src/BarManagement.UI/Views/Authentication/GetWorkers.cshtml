@@ -5,13 +5,13 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">
+            <h2>
                 Workers
             </h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Authentication" asp-action="AddWorker" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> &nbsp; Add Worker
+            <a asp-controller="Authentication" asp-action="AddWorker" class="btn btn-primary btn-custom">
+                Add Worker
             </a>
         </div>
     </div>
@@ -35,6 +35,7 @@
                 <th>
                     Email
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +57,9 @@
                     <td>
                         @obj.Email
                     </td>
+                    <td>
+                        <a class="btn btn-primary btn-custom" asp-controller="Authentication" asp-action="Schedule" asp-route-userId="@obj.Id">Manage Schedule</a>
+                        </td>
                 </tr>
             }
         </tbody>

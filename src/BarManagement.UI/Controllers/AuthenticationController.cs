@@ -2,6 +2,7 @@
 using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Authentication;
 using BarManagement.UI.Models.Commodity;
+using BarManagement.UI.Models.Schedule;
 using BarManagement.UI.Services.JwtParser;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -194,6 +195,72 @@ namespace BarManagement.UI.Controllers
                 ModelState.AddModelError(string.Empty, errorResult.Message);
 
                 return View(addWorkerModel);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Schedule(Guid userId)
+        {
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:ScheduleEndpoint"]}?barmenId={userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<IEnumerable<GetScheduleViewModel>>(responseContent);
+                var getScheduleEnvelope = new GetScheduleViewModelEnvelope { BarmenId = userId, Schedules = responseObject };
+
+                return View(getScheduleEnvelope);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult AddSchedule(Guid barmenId)
+        {
+            return View(new AddScheduleViewModel { BarmenId = barmenId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSchedule(AddScheduleViewModel addScheduleViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(addScheduleViewModel);
+            }
+            string token = Request.Cookies[CookiesNames.JwtToken];
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var json = JsonConvert.SerializeObject(addScheduleViewModel);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(_configuration["BarManagementAPI:ScheduleEndpoint"], content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Schedule", "Authentication");
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View(addScheduleViewModel);
             }
         }
     }

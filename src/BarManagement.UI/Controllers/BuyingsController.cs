@@ -53,12 +53,12 @@ namespace BarManagement.UI.Controllers
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             string token = Request.Cookies[CookiesNames.JwtToken];
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await client.GetAsync(_configuration["BarManagementAPI:BuyingsEndpoint"]);
+            var response = await client.GetAsync(_configuration["BarManagementAPI:SpendingsEndpoint"]);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var responseObject = JsonConvert.DeserializeObject<IEnumerable<BuyingViewModel>>(responseContent);
+                var responseObject = JsonConvert.DeserializeObject<IEnumerable<SpendingViewModel>>(responseContent);
 
                 return View(responseObject);
             }

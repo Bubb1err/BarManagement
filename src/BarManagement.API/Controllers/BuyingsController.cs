@@ -1,5 +1,6 @@
 ﻿using BarManagment.Application.Buyings.Commands.SaveBuying;
 using BarManagment.Application.Buyings.Queries.GetBuyings;
+using BarManagment.Application.Buyings.Queries.GetSpendings;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,12 @@ namespace BarManagement.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _mediator.Send(new GetBuyingsQuery()));
+        }
+
+        [HttpGet("spendings")]
+        public async Task<IActionResult> GetSpendings()
+        {
+            return Ok(await _mediator.Send(new GetSpendingsQuery()));
         }
 
         [HttpPost]

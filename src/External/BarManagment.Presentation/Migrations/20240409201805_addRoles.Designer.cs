@@ -4,6 +4,7 @@ using BarManagment.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarManagment.Persistance.Migrations
 {
     [DbContext(typeof(BarDbContext))]
-    partial class BarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409201805_addRoles")]
+    partial class addRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BarmenSchedule", (string)null);
+                    b.ToTable("BarmenSchedule");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.Buying", b =>
@@ -66,7 +69,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("CommodityId");
 
-                    b.ToTable("Buying", null, t =>
+                    b.ToTable("Buying", t =>
                         {
                             t.HasCheckConstraint("CK_BuyingAvailableAmount_GreaterOrEqualZero", "AvailableAmount >= 0");
 
@@ -94,7 +97,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coctail", (string)null);
+                    b.ToTable("Coctail");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.CoctailIngredient", b =>
@@ -118,7 +121,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("CommodityId");
 
-                    b.ToTable("CoctailIngredient", (string)null);
+                    b.ToTable("CoctailIngredient");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.Commodity", b =>
@@ -145,7 +148,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("DefaultMeasureId");
 
-                    b.ToTable("Commodity", (string)null);
+                    b.ToTable("Commodity");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.DefaultMeasure", b =>
@@ -160,7 +163,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DefaultMeasure", (string)null);
+                    b.ToTable("DefaultMeasure");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.Drink", b =>
@@ -191,7 +194,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("CommodityId");
 
-                    b.ToTable("Drink", (string)null);
+                    b.ToTable("Drink");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.Receipt", b =>
@@ -215,7 +218,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("BarmenId");
 
-                    b.ToTable("Receipt", (string)null);
+                    b.ToTable("Receipt");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.Role", b =>
@@ -230,7 +233,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.User", b =>
@@ -275,7 +278,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("CoctailReceipt", b =>
@@ -290,7 +293,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("CoctailReceipt", (string)null);
+                    b.ToTable("CoctailReceipt");
                 });
 
             modelBuilder.Entity("DrinkReceipt", b =>
@@ -305,7 +308,7 @@ namespace BarManagment.Persistance.Migrations
 
                     b.HasIndex("ReceiptId");
 
-                    b.ToTable("DrinkReceipt", (string)null);
+                    b.ToTable("DrinkReceipt");
                 });
 
             modelBuilder.Entity("BarManagment.Domain.DomainEntities.BarmenSchedule", b =>

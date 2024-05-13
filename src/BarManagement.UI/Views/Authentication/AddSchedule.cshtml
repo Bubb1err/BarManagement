@@ -1,0 +1,33 @@
+﻿@model BarManagement.UI.Models.Schedule.AddScheduleViewModel
+
+<div class="container">
+    <form method="post" asp-controller="Authentication" asp-action="AddSchedule">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2>
+                    Create New Schedule
+                </h2>
+                <hr />
+            </div>
+            <input asp-for="BarmenId" value="@Model.BarmenId" hidden />
+            <div class="mb-3">
+                <label asp-for="StartDate">Start Date:</label>
+                <input asp-for="StartDate" type="datetime-local" class="form-control datepicker" required>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EndDate">End Date:</label>
+                <input asp-for="EndDate" type="datetime-local" class="form-control datepicker" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom" style="width:150px">Create</button>
+            <a asp-controller="Authentication" asp-action="Schedule" asp-route-userId="@Model.BarmenId" class="btn btn-secondary" style="width:150px">
+                Back To List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

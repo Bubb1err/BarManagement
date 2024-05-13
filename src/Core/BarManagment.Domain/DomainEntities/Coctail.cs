@@ -16,10 +16,15 @@ namespace BarManagment.Domain.DomainEntities
             Price = price;
             Ingredients = new List<CoctailIngredient>();
         }
+
         private Coctail() { }
+
         public string Name { get; private set; }
+
         public string Description { get; private set; }
+
         public decimal Price { get; private set; }
+
         public IEnumerable<CoctailIngredient> Ingredients { get; private set; }
 
         public static Coctail Create(string name, string description, decimal price)

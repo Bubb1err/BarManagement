@@ -5,13 +5,16 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">
+            <h2>
                 Buyings
             </h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Buyings" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> &nbsp; Add Buying
+            <a asp-controller="Buyings" asp-action="Create" class="btn btn-primary btn-custom">
+                Add Buying
+            </a>
+            <a asp-controller="Buyings" asp-action="GetSpendings" class="btn btn-primary btn-custom">
+                Get Spendings
             </a>
         </div>
     </div>
@@ -38,9 +41,6 @@
                 <th>
                     PurchaseAmount
                 </th>
-                <th>
-                    
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -64,11 +64,6 @@
                     </td>
                     <td>
                         @obj.PurchaseAmount
-                    </td>
-                    <td>
-                        <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Buyings" asp-action="Update" asp-route-id="@obj.Id" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> &nbsp;Edit</a>
-                        </div>
                     </td>
                 </tr>
             }

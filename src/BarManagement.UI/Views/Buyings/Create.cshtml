@@ -2,35 +2,38 @@
 
 @model BarManagement.UI.Models.Buyings.CreateBuyingViewModel;
 
-<form method="post" asp-controller="Buyings" asp-action="Create">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class=" text-primary">
-                Create Buying
-            </h2>
-            <hr />
+<div class="container">
+    <form method="post" asp-controller="Buyings" asp-action="Create">
+        <div class="p-3 mt-4">
+            <div class="row pb-2">
+                <h2>
+                    Create Buying
+                </h2>
+                <hr />
+            </div>
+            <div class=" mb-3">
+                <label asp-for="CommodityId">Commodity Id</label>
+                <input asp-for="CommodityId" class="form-control" />
+                <span asp-validation-for="CommodityId" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="PurchaseDate">Purchase Date</label>
+                <input type="datetime-local" asp-for="PurchaseDate" class="form-control" />
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+            <div class=" mb-3">
+                <label asp-for="PurchaseAmount">Purchase Amount</label>
+                <input asp-for="PurchaseAmount" class="form-control" />
+                <span asp-validation-for="PurchaseAmount" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-custom" style="width:150px">Create</button>
+            <a asp-controller="Buyings" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
+                Back To List
+            </a>
         </div>
-        <div class=" mb-3">
-            <label asp-for="CommodityId">Commodity Id</label>
-            <input asp-for="CommodityId" class="form-control" />
-            <span asp-validation-for="CommodityId" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="PurchaseDate">Purchase Date</label>
-            <input type="datetime-local" asp-for="PurchaseDate" class="form-control" />
-            <span asp-validation-for="PurchaseDate" class="text-danger"></span>
-        </div>
-        <div class=" mb-3">
-            <label asp-for="PurchaseAmount">Purchase Amount</label>
-            <input asp-for="PurchaseAmount" class="form-control" />
-            <span asp-validation-for="PurchaseAmount" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
-        <a asp-controller="Buyings" asp-action="GetAll" class="btn btn-secondary" style="width:150px">
-            Back To List
-        </a>
-    </div>
-</form>
+    </form>
+</div>
+
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />

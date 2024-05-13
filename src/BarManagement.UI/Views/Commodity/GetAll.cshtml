@@ -5,13 +5,13 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">
+            <h2>
                 Commodity
             </h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Commodity" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> &nbsp; Add Commodity
+            <a asp-controller="Commodity" asp-action="Create" class="btn btn-primary btn-custom">
+                Add Commodity
             </a>
         </div>
     </div>
@@ -60,7 +60,7 @@
                 </td>
                 <td>
                     <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Commodity" asp-action="Update" asp-route-id="@obj.Id" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> &nbsp;Edit</a>
+                            <a asp-controller="Commodity" asp-action="Update" asp-route-id="@obj.Id" class="btn btn-primary btn-custom"> <i class="bi bi-pencil-square"></i> &nbsp;Edit</a>
                     </div>
                 </td>
             </tr>
