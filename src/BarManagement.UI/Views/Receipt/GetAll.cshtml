@@ -1,6 +1,4 @@
-﻿﻿
-
-@model IEnumerable<BarManagement.UI.Models.Receipt.ReceiptViewModel>
+﻿@model IEnumerable<BarManagement.UI.Models.Receipt.ReceiptViewModel>
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -9,65 +7,66 @@
                 Receipts
             </h2>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Receipt" asp-action="Create" class="btn btn-primary btn-custom">
-                Add Receipt
-            </a>
-        </div>
     </div>
     <br />
 
-    <table class="table table-bordered table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Paid Time
-                </th>
-                <th>
-                    Created At
-                </th>
-                <th>
-                    Is Paid
-                </th>
-                <th>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var obj in Model)
+        {
+            <div class="col">
+                <div class="card" style="color: black;">
+                    <div class="card-body">
+                        <h5 class="card-title">Receipt</h5>
+                        <hr style="height: 5px;" />
+                            <div class="row">
+                                @foreach (var drink in obj.DrinksVM)
+                                {
+                                    <div class="col-8">
+                                        @drink.Item1.Name
+                                    </div>
+                                    <div class="col-4">
+                                        $@drink.Item1.Price - @drink.Item2
+                                    </div>
+                                }
+                                @foreach (var drink in obj.CoctailsVM)
+                                {
+                                    <div class="col-8">
+                                        @drink.Item1.Name
+                                    </div>
+                                    <div class="col-4">
+                                        $@drink.Item1.Price - @drink.Item2
+                                    </div>
+                                }
 
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var obj in Model)
-            {
-                <tr>
-                    <td>
-                        @obj.Id
-                    </td>
-                    <td>
-                        @{
-                            string time = "Not Paid";
-
-                            if (obj.PaidTime != null)
-                            {
-                                ((DateTime)obj.PaidTime).ToLongDateString();
+                            </div>
+                        <hr style="height: 5px;" />
+                        <p class="card-text">
+                            
+                            <strong>Paid Time:</strong> @{
+                                string time = "Not Paid";
+                                if (obj.PaidTime != null)
+                                {
+                                    time = ((DateTime)obj.PaidTime).ToLongDateString();
+                                }
                             }
+                            @time
+                            <br />
+                            <strong>Created At:</strong> @obj.Created.ToLongDateString()
+                            <br />
+                            <strong>Is Paid:</strong> @obj.IsPaid
+                            <br/>
+                            <strong>Total Price:</strong> $@obj.TotalPrice
+                        </p>
+                        @if (!obj.IsPaid)
+                        {
+                            <div class="text-center">
+                                <a asp-controller="Receipt" asp-action="Pay" asp-route-receiptId="@obj.Id" class="btn btn-primary btn-custom w-100">Pay</a>
+                            </div>
                         }
-                        @time
-                    </td>
-                    <td>
-                        @obj.Created.ToLongDateString()
-                    </td>
-                    <td>
-                        @obj.IsPaid
-                    </td>
-                    <td>
-                        <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Receipt" asp-action="Pay" asp-route-id="@obj.Id" class="btn btn-primary btn-custom">Pay</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

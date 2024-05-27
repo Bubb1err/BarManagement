@@ -10,9 +10,15 @@
             </h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Buyings" asp-action="Create" class="btn btn-primary btn-custom">
-                Add Buying
-            </a>
+            @{
+                var role = Context.Request.Cookies["Role"];
+            }
+            @if (role == "Manager")
+            {
+                <a asp-controller="Buyings" asp-action="Create" class="btn btn-primary btn-custom">
+                    Add Buying
+                </a>
+            }
             <a asp-controller="Buyings" asp-action="GetSpendings" class="btn btn-primary btn-custom">
                 Get Spendings
             </a>
@@ -24,13 +30,7 @@
         <thead>
             <tr>
                 <th>
-                    ID
-                </th>
-                <th>
                     Commodity
-                </th>
-                <th>
-                    Measure
                 </th>
                 <th>
                     PurchaseDate
@@ -48,22 +48,16 @@
             {
                 <tr>
                     <td>
-                        @obj.Id
-                    </td>
-                    <td>
                         @obj.Commodity.Title
-                    </td>
-                    <td>
-                        @obj.Commodity.DefaultMeasure.Measure
                     </td>
                     <td>
                         @obj.PurchaseDate.ToLongDateString();
                     </td>
                     <td>
-                        @obj.AvailableAmount
+                        @obj.AvailableAmount @obj.Commodity.DefaultMeasure.Measure
                     </td>
                     <td>
-                        @obj.PurchaseAmount
+                        @obj.PurchaseAmount @obj.Commodity.DefaultMeasure.Measure
                     </td>
                 </tr>
             }

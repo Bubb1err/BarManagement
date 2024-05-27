@@ -1,6 +1,7 @@
 ﻿using BarManagment.Application.Core.Abstractions.Data;
 using BarManagment.Domain.Abstractions.Repository;
 using BarManagment.Domain.DomainEntities;
+using BarManagment.Domain.Models.Receipts;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -24,6 +25,13 @@ namespace BarManagment.Persistance.Repositories
             return result;
         }
 
+        public IEnumerable<BarmenReceiptViewModel> GetBarmenReceipts(Guid barmenId, DateTime startDate, DateTime endDate)
+        {
+            var receipts = _context.Database
+                .SqlQuery<BarmenReceiptViewModel>($@"EXEC [dbo].[GetBarmenReceipts] @barmenId = {barmenId}, @startDate = {startDate}, @endDate = {endDate}");
+
+            return receipts;
+        }
         
     }
 }

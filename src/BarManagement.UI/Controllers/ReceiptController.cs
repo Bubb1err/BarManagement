@@ -1,6 +1,8 @@
 ﻿using BarManagement.UI.Constants;
 using BarManagement.UI.Models.ApiErrors;
+using BarManagement.UI.Models.Coctails;
 using BarManagement.UI.Models.Commodity;
+using BarManagement.UI.Models.Drinks;
 using BarManagement.UI.Models.Receipt;
 using BarManagement.UI.Services.JwtParser;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,32 @@ namespace BarManagement.UI.Controllers
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var responseObject = JsonConvert.DeserializeObject<IEnumerable<ReceiptViewModel>>(responseContent);
+
+
+                foreach (var receipt in responseObject)
+                {
+                    decimal totalPrice = 0;
+                    foreach (var drink in receipt.Drinks)
+                    {
+                        totalPrice += drink.Price;
+                    }
+
+                    foreach (var coctail in receipt.Coctails)
+                    {
+                        totalPrice += coctail.Price;
+                    }
+                    receipt.TotalPrice = totalPrice;
+
+                    var drinksVM = receipt.Drinks.GroupBy(drink => drink.Id)
+                                .Select(group => new Tuple<GetDrinksViewModel, int>(group.First(), group.Count()));
+
+                    var coctailsVM = receipt.Coctails.GroupBy(coctail => coctail.Id)
+                                .Select(group => new Tuple<CoctailViewModel, int>(group.First(), group.Count()));
+
+                    receipt.DrinksVM = drinksVM;
+                    receipt.CoctailsVM = coctailsVM;
+
+                }
 
                 return View(responseObject);
             }
@@ -89,6 +117,31 @@ namespace BarManagement.UI.Controllers
                 ModelState.AddModelError(string.Empty, errorResult.Message);
 
                 return View(receiptViewModel);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Pay(Guid receiptId)
+        {
+            HttpClient client = new HttpClient();
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            var response = await client.PostAsync($"{_configuration["BarManagementAPI:PayReceiptEndpoint"]}?receiptId={receiptId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+
+                return RedirectToAction("GetAll");
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View();
             }
         }
     }

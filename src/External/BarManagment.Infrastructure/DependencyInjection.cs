@@ -47,7 +47,7 @@ namespace BarManagment.Infrastructure
 
             services.AddScoped<IAvailabilityServiceCheck, AvailabilityServiceCheck>();
 
-            services.AddScoped<IEmailSender, EmailSender>();
+           services.AddScoped<IEmailSender, EmailSender>();
 
             return services;
         }

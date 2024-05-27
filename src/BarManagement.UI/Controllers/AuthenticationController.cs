@@ -263,5 +263,58 @@ namespace BarManagement.UI.Controllers
                 return View(addScheduleViewModel);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfile(Guid userId)
+        {
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:GetProfileQuery"]}?userId={userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<UserViewModel>(responseContent);
+
+                return View(responseObject);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                ModelState.AddModelError(string.Empty, errorResult.Message);
+
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBarmenReceipts(Guid barmenId, DateTime startDate, DateTime endDate)
+        {
+            string token = Request.Cookies[CookiesNames.JwtToken];
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:GetBarmenReceipts"]}?barmenId={barmenId}&startDate={startDate:o}&endDate={endDate:o}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<IEnumerable<BarmenReceiptViewModel>>(responseContent);
+
+                return Json(responseObject);
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                var errorResult = JsonConvert.DeserializeObject<ErrorResponse>(errorMessage);
+
+                return BadRequest(errorResult.Message);
+            }
+        }
+
     }
 }

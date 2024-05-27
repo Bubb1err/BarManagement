@@ -24,7 +24,7 @@ namespace BarManagment.Application.Users.GetWorkers
                 throw new ExecutingException("Admin was not found.", System.Net.HttpStatusCode.BadRequest);
             }
 
-            var users = await _userRepository.GetAll(user => user.CompanyCode == admin.CompanyCode).ToListAsync();
+            var users = await _userRepository.GetAll(user => user.CompanyCode == admin.CompanyCode && user.Id != admin.Id).ToListAsync();
             return users;
         }
     }

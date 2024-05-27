@@ -1,11 +1,6 @@
 ﻿using BarManagment.Domain.Abstractions.Repository.Base;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BarManagment.Application.Receipt.Queries.GetAll
 {
@@ -21,9 +16,7 @@ namespace BarManagment.Application.Receipt.Queries.GetAll
 
         public async Task<IEnumerable<Domain.DomainEntities.Receipt>> Handle(GetAllReceiptsQuery request, CancellationToken cancellationToken)
         {
-            DateTime today = DateTime.Today;
-
-            return await _receiptRepository.GetAll().OrderByDescending(r => r.IsPaid).ToListAsync();
+            return await _receiptRepository.GetAll().Include(i => i.Coctails).Include(i => i.Drinks).OrderByDescending(r => !r.IsPaid).ToListAsync();
         }
     }
 }

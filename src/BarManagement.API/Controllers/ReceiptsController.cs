@@ -1,5 +1,6 @@
 ﻿using BarManagment.Application.Receipt.Commands.CreateReceipt;
 using BarManagment.Application.Receipt.Commands.PayReceipt;
+using BarManagment.Application.Receipt.Queries.BarmenReceipts;
 using BarManagment.Application.Receipt.Queries.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -39,6 +40,13 @@ namespace BarManagement.API.Controllers
         {
             var payReceiptCommand = new PayReceiptCommand(receiptId);
             return Ok(await _mediator.Send(payReceiptCommand));
+        }
+
+        [HttpGet("barmenReceipts")]
+        public async Task<IActionResult> GetBarmenReceipts([FromQuery]Guid barmenId, [FromQuery]DateTime startDate, [FromQuery]DateTime endDate)
+        {
+            var getBarmenReceipts = new GetBarmenReceiptsQuery(barmenId, startDate, endDate);
+            return Ok(await _mediator.Send(getBarmenReceipts));
         }
     }
 }

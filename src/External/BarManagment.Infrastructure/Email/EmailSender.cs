@@ -1,40 +1,42 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using MimeKit;
+﻿using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using BarManagment.Application.Core.Abstractions.Email;
+using Microsoft.Extensions.Options;
 
 namespace BarManagment.Infrastructure.Email
 {
     public class EmailSender : IEmailSender
     {
-        private readonly IConfiguration _config;
-        public EmailSender(IConfiguration config, ILogger<EmailSender> logger)
+        private readonly IOptions<SmtpOptions> _options;
+
+        public EmailSender(IOptions<SmtpOptions> options)
         {
-            _config = config;
+            _options = options;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+
+        public async Task SendEmailAsync(string destinationEmail, string subject, string body)
         {
-            var mailMessage = new MimeMessage();
-            mailMessage.From.Add(MailboxAddress.Parse("timcenkovaleria79@gmail.com"));
-            mailMessage.Subject = subject;
-            mailMessage.To.Add(MailboxAddress.Parse(email));
-            mailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_options.Value.SmtpUsername, _options.Value.SmtpUser));
+            message.To.Add(MailboxAddress.Parse(destinationEmail));
+            message.Subject = subject;
+
+            message.Body = new TextPart("html")
             {
-                Text = htmlMessage
+                Text = body
             };
 
-            using (SmtpClient client = new SmtpClient())
+            using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                await client.AuthenticateAsync(_config.GetSection("EmailSender").Value,
-                    _config.GetSection("EmailPass").Value);
-                await client.SendAsync(mailMessage);
+                await client.ConnectAsync(_options.Value.SmtpHost, _options.Value.SmtpPort,
+                    SecureSocketOptions.StartTls);
+
+                await client.AuthenticateAsync(_options.Value.SmtpUser, _options.Value.SmtpPassword);
+                await client.SendAsync(message);
                 await client.DisconnectAsync(true);
             }
-
         }
     }
 }

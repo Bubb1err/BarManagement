@@ -57,14 +57,6 @@ namespace BarManagment.Application.Users.Worker
             var user = User.CreateWorker(request.Name, request.Surname, request.Patronymic, request.Email, request.Phone, admin.CompanyCode, passwordHashed, barmenRole);
             await _usersRepository.AddAsync(user);
             await _usersRepository.SaveChangesAsync();
-
-            await _emailSender.SendEmailAsync(user.Email, "You were added to the organization", $@"
-<div>
-<p>You were added to the organization with code {admin.CompanyCode}.</p>
-<p>Ask your admin for you credentials to access the organization management workspace.</p>
-</div>
-");
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BarManagment.Application.Users.GetWorkers;
+﻿using BarManagment.Application.Users.GetUserProfile;
+using BarManagment.Application.Users.GetWorkers;
 using BarManagment.Application.Users.Login;
 using BarManagment.Application.Users.Register;
 using BarManagment.Application.Users.Worker;
@@ -46,6 +47,14 @@ namespace BarManagement.API.Controllers
         {
             var getUsersQuery = new GetWorkersQuery(adminId);
             return Ok(await _mediator.Send(getUsersQuery));
+        }
+
+        [HttpGet("api/profile")]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> GetProfile([FromQuery]Guid userId)
+        {
+            var getUserQuery = new GetUserQuery(userId);
+            return Ok(await _mediator.Send(getUserQuery));
         }
     }
 }

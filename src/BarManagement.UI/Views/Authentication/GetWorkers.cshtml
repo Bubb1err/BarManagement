@@ -58,8 +58,10 @@
                         @obj.Email
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-custom" asp-controller="Authentication" asp-action="Schedule" asp-route-userId="@obj.Id">Manage Schedule</a>
-                        </td>
+                        <div class="w-100 btn-group" role="group">
+                            <a class="btn btn-primary btn-custom" asp-controller="Authentication" asp-action="GetUserProfile" asp-route-userId="@obj.Id">View Details</a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>

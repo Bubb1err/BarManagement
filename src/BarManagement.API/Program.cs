@@ -1,7 +1,9 @@
 using BarManagement.API.Middlewares;
 using BarManagment.Application;
 using BarManagment.Infrastructure;
+using BarManagment.Infrastructure.Email;
 using BarManagment.Persistance;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddPersistance(builder.Configuration)
-    .AddApplication()
+.AddApplication()
     .AddInfrastructure(builder.Configuration);
+
+builder.Services.Configure<SmtpOptions>(x => builder.Configuration.Bind("SmtpOptions", x));
 
 builder.Services.AddCors(options =>
 {
