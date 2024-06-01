@@ -8,12 +8,14 @@ namespace BarManagment.Domain.DomainEntities
             Guid id, 
             string name, 
             string description,
-            decimal price)
+            decimal price,
+            string companyCode)
             : base(id)
         {
             Name = name;
             Description = description;
             Price = price;
+            CompanyCode = companyCode;
             Ingredients = new List<CoctailIngredient>();
         }
 
@@ -27,9 +29,11 @@ namespace BarManagment.Domain.DomainEntities
 
         public IEnumerable<CoctailIngredient> Ingredients { get; private set; }
 
+        public string CompanyCode { get; private set; }
+
         public static Coctail Create(string name, string description, decimal price)
         {
-            return new Coctail(Guid.NewGuid(), name, description, price);
+            return new Coctail(Guid.NewGuid(), name, description, price, "");
         }
 
         public void Update(string name, string description, decimal price)

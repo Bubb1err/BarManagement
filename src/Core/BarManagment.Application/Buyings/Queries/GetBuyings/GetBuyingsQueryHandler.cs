@@ -9,15 +9,23 @@ namespace BarManagment.Application.Buyings.Queries.GetBuyings
     internal sealed class GetBuyingsQueryHandler : IRequestHandler<GetBuyingsQuery, IEnumerable<Buying>>
     {
         private readonly IBuyingsRepository _buyingsRepository;
+        private readonly IRepository<User> _usersRepository;
 
-        public GetBuyingsQueryHandler(IBuyingsRepository buyingsRepository)
+        public GetBuyingsQueryHandler(IBuyingsRepository buyingsRepository,
+            IRepository<User> usersRepository)
         {
             _buyingsRepository = buyingsRepository;
+            _usersRepository = usersRepository;
         }
         public async Task<IEnumerable<Buying>> Handle(GetBuyingsQuery request, CancellationToken cancellationToken)
         {
-            return await _buyingsRepository.GetAll(include: i => 
+            var user = await _usersRepository.GetFirstOrDefaultAsync(u => u.Id == request.UserId);
+
+            var buyings = await _buyingsRepository.GetAll(b => b.CompanyCode == user.CompanyCode
+                ,include: i => 
                 i.Include(buying => buying.Commodity).ThenInclude(commodity => commodity.DefaultMeasure)).ToListAsync(cancellationToken);
+
+            return buyings.OrderBy(b => b.PurchaseDate);
         }
     }
 }

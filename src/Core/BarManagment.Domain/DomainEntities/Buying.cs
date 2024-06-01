@@ -9,13 +9,15 @@ namespace BarManagment.Domain.DomainEntities
             Commodity commodity,
             DateTime purchaseDate,
             double availableAmount,
-            double purchaseAmount) : base(id) 
+            double purchaseAmount,
+            string companyCode) : base(id) 
         {
             CommodityId = commodity.Id;
             Commodity = commodity;
             PurchaseDate = purchaseDate;
             AvailableAmount = availableAmount;
             PurchaseAmount = purchaseAmount;
+            CompanyCode = companyCode;
         }
 
         private Buying() { }
@@ -30,14 +32,17 @@ namespace BarManagment.Domain.DomainEntities
 
         public double PurchaseAmount { get; private set; }
 
-        public static Buying Create(Guid id, Commodity commodity, DateTime purchaseDate, double availableAmount, double purchaseAmount)
+        public string CompanyCode { get; private set; }
+
+        public static Buying Create(Guid id, Commodity commodity, DateTime purchaseDate, double availableAmount, double purchaseAmount, string companyCode)
         {
             return new Buying(
                 id,
                 commodity,
                 purchaseDate,
                 availableAmount,
-                purchaseAmount);
+                purchaseAmount,
+                companyCode);
         } 
 
         public void UpdateAmount(double usedAmount)

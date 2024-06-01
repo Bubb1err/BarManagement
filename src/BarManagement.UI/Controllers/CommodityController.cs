@@ -2,6 +2,7 @@
 using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Authentication;
 using BarManagement.UI.Models.Commodity;
+using BarManagement.UI.Services.JwtParser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,10 +13,12 @@ namespace BarManagement.UI.Controllers
     public class CommodityController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly IJwtParser _jwtParser;
 
-        public CommodityController(IConfiguration configuration)
+        public CommodityController(IConfiguration configuration, IJwtParser jwtParser)
         {
             _configuration = configuration;
+            _jwtParser = jwtParser;
         }
 
         [HttpGet]
@@ -24,8 +27,9 @@ namespace BarManagement.UI.Controllers
             HttpClient client = new HttpClient();
             string token = Request.Cookies[CookiesNames.JwtToken];
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var userId = _jwtParser.GetIdFromToken(token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
-            var response = await client.GetAsync(_configuration["BarManagementAPI:CommodityEndpoint"]);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:CommodityEndpoint"]}?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -60,8 +64,10 @@ namespace BarManagement.UI.Controllers
             }
             HttpClient client = new HttpClient();
             string token = Request.Cookies[CookiesNames.JwtToken];
+            var userId = _jwtParser.GetIdFromToken(token);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            createCommodityViewModel.UserId = userId;
             var json = JsonConvert.SerializeObject(createCommodityViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(_configuration["BarManagementAPI:CommodityEndpoint"], content);

@@ -251,7 +251,7 @@ namespace BarManagement.UI.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Schedule", "Authentication");
+                return RedirectToAction("Schedule", "Authentication", new { userId = addScheduleViewModel.BarmenId});
             }
             else
             {

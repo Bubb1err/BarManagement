@@ -12,5 +12,7 @@ namespace BarManagement.UI.Models.Buyings
 
         [Required]
         public double PurchaseAmount { get; set; }
+
+        public string? UserId { get; set; }
     }
 }

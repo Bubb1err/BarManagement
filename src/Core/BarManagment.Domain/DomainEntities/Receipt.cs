@@ -8,6 +8,7 @@ namespace BarManagment.Domain.DomainEntities
             Guid id,
             User barmen,
             DateTime created,
+            string companyCode,
             DateTime? paidTime = null,
             bool isPaid = false)
             : base(id)
@@ -18,6 +19,7 @@ namespace BarManagment.Domain.DomainEntities
             Coctails = new List<Coctail>();
             BarmenId = barmen.Id;
             Created = created;
+            CompanyCode = companyCode;
         }
 
         private Receipt() { }
@@ -28,11 +30,13 @@ namespace BarManagment.Domain.DomainEntities
 
         public bool IsPaid { get; private set; }
 
-        public IEnumerable<Drink> Drinks { get; private set; }
+        public List<Drink> Drinks { get; private set; }
 
-        public IEnumerable<Coctail> Coctails { get; private set; }
+        public List<Coctail> Coctails { get; private set; }
 
         public Guid BarmenId { get; private set; }
+
+        public string CompanyCode { get; private set; }
 
         public void Pay()
         {
@@ -40,11 +44,11 @@ namespace BarManagment.Domain.DomainEntities
             PaidTime = DateTime.Now;
         }
 
-        public static Receipt Create(DateTime? paidTime, User barmen, bool isPaid, List<Drink> drinks, List<Coctail> coctails)
+        public static Receipt Create(DateTime? paidTime, User barmen, bool isPaid, List<Drink> drinks, List<Coctail> coctails, string companyCode)
         {
-            var receipt = new Receipt(Guid.NewGuid(), barmen, DateTime.Now, paidTime, isPaid);
-            receipt.Drinks.ToList().AddRange(drinks);
-            receipt.Coctails.ToList().AddRange(coctails);
+            var receipt = new Receipt(Guid.NewGuid(), barmen, DateTime.Now, companyCode, paidTime, isPaid);
+            receipt.Drinks.AddRange(drinks);
+            receipt.Coctails.AddRange(coctails);
             return receipt;
         }
     }

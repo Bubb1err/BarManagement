@@ -73,8 +73,8 @@
                 let startDate, endDate;
 
                 if (period === 'day') {
-                    startDate = formatDate(now);
-                    endDate = formatDate(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59));
+                    startDate = formatDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 00, 00, 01));
+                    endDate = formatDate(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59));
                 } else if (period === 'month') {
                     startDate = formatDate(new Date(now.getFullYear(), now.getMonth(), 1));
                     endDate = formatDate(new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59));

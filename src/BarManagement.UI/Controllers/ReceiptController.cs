@@ -30,7 +30,8 @@ namespace BarManagement.UI.Controllers
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             string token = Request.Cookies[CookiesNames.JwtToken];
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await client.GetAsync(_configuration["BarManagementAPI:ReceiptsEndpoint"]);
+            string userId = _jwtParser.GetIdFromToken(token);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:ReceiptsEndpoint"]}?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {

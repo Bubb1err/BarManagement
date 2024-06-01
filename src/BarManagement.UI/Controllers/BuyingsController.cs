@@ -2,6 +2,7 @@
 using BarManagement.UI.Models.ApiErrors;
 using BarManagement.UI.Models.Buyings;
 using BarManagement.UI.Models.Commodity;
+using BarManagement.UI.Services.JwtParser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,10 +13,12 @@ namespace BarManagement.UI.Controllers
     public class BuyingsController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly IJwtParser _jwtParser;
 
-        public BuyingsController(IConfiguration configuration)
+        public BuyingsController(IConfiguration configuration, IJwtParser jwtParser)
         {
             _configuration = configuration;
+            _jwtParser = jwtParser;
         }
 
         [HttpGet]
@@ -25,8 +28,9 @@ namespace BarManagement.UI.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             string token = Request.Cookies[CookiesNames.JwtToken];
+            var userId = _jwtParser.GetIdFromToken(token);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await client.GetAsync(_configuration["BarManagementAPI:BuyingsEndpoint"]);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:BuyingsEndpoint"]}?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -90,6 +94,8 @@ namespace BarManagement.UI.Controllers
             string token = Request.Cookies[CookiesNames.JwtToken];
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
+            var userId = _jwtParser.GetIdFromToken(token);
+            createBuyingViewModel.UserId = userId;
             var json = JsonConvert.SerializeObject(createBuyingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(_configuration["BarManagementAPI:BuyingsEndpoint"], content);

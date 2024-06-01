@@ -20,9 +20,9 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]Guid userId)
         {
-            return Ok(await _mediator.Send(new GetBuyingsQuery()));
+            return Ok(await _mediator.Send(new GetBuyingsQuery(userId)));
         }
 
         [HttpGet("spendings")]

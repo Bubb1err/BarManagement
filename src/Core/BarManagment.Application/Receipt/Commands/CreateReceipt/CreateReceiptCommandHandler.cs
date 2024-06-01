@@ -5,6 +5,7 @@ using BarManagment.Domain.DomainEntities;
 using BarManagment.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace BarManagment.Application.Receipt.Commands.CreateReceipt
 {
@@ -41,8 +42,25 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
             }
 
             var drinks = await _drinksRepository.GetAll(drink => request.DrinkIds.Contains(drink.Id),
-                include: i => i.Include(drink => drink.Commodity)).ToListAsync();
-            if (drinks is not null)
+                include: i => i.Include(drink => drink.Commodity), track: true).ToListAsync();
+
+            Dictionary<Guid, int> equalDrinks = request.DrinkIds
+            .GroupBy(g => g)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (var equalDrink in equalDrinks)
+            {
+                if (equalDrink.Value >= 2)
+                {
+                    var equalDrinkObj = drinks.FirstOrDefault(c => c.Id == equalDrink.Key);
+                    for (int i = 0; i < equalDrink.Value - 1; i++)
+                    {
+                        drinks.Add(equalDrinkObj);
+                    }
+                }
+            }
+
+            if (drinks != null)
             {
                 foreach (var drink in drinks)
                 {
@@ -54,7 +72,7 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
                     }
                     var buying = await _buyingsRepository.GetLastBuying(drink.CommodityId);
 
-                    if (buying is null)
+                    if (buying == null)
                     {
                         throw new ExecutingException($"No commodity available", System.Net.HttpStatusCode.BadRequest);
                     }
@@ -65,36 +83,55 @@ namespace BarManagment.Application.Receipt.Commands.CreateReceipt
             }
 
             var coctails = await _coctailsRepository.GetAll(coctail => request.CoctailIds.Contains(coctail.Id),
-                include: i => i.Include(coctail => coctail.Ingredients).ThenInclude(ingredient => ingredient.Commodity)).ToListAsync();
+                include: i => i.Include(coctail => coctail.Ingredients).ThenInclude(ingredient => ingredient.Commodity), track: true).ToListAsync();
 
-            foreach(var coctail in coctails)
+            Dictionary<Guid, int> equalCoctails = request.CoctailIds
+            .GroupBy(g => g)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (var equalCoctail  in equalCoctails)
             {
-                foreach (var ingredient in coctail.Ingredients)
+                if (equalCoctail.Value >= 2)
                 {
-                    bool isCommodityAvailable = await _availabilityServiceCheck.CheckIfCommodityAvailable(ingredient.Commodity, ingredient.AmountInDefaultMeasure);
-
-                    if (!isCommodityAvailable)
+                    var equalCoctailObj = coctails.FirstOrDefault(c => c.Id == equalCoctail.Key);
+                    for (int i = 0; i < equalCoctail.Value - 1; i++)
                     {
-                        throw new ExecutingException($"Commodity with id {ingredient.Commodity.Id} is not available", System.Net.HttpStatusCode.BadRequest);
+                        coctails.Add(equalCoctailObj);
                     }
-
-                    var buying = await _buyingsRepository.GetLastBuying(ingredient.CommodityId);
-
-                    if (buying is null)
-                    {
-                        throw new ExecutingException($"No commodity available", System.Net.HttpStatusCode.BadRequest);
-                    }
-                    buying.UpdateAmount(ingredient.AmountInDefaultMeasure);
-                    _buyingsRepository.Update(buying);
                 }
             }
 
+            if (coctails != null)
+            {
+                foreach (var coctail in coctails)
+                {
+                    foreach (var ingredient in coctail.Ingredients)
+                    {
+                        bool isCommodityAvailable = await _availabilityServiceCheck.CheckIfCommodityAvailable(ingredient.Commodity, ingredient.AmountInDefaultMeasure);
 
-            var receipt = BarManagment.Domain.DomainEntities.Receipt.Create(null, barmen, false, drinks, coctails);
+                        if (!isCommodityAvailable)
+                        {
+                            throw new ExecutingException($"Commodity with id {ingredient.Commodity.Id} is not available", System.Net.HttpStatusCode.BadRequest);
+                        }
+
+                        var buying = await _buyingsRepository.GetLastBuying(ingredient.CommodityId);
+
+                        if (buying == null)
+                        {
+                            throw new ExecutingException($"No commodity available", System.Net.HttpStatusCode.BadRequest);
+                        }
+                        buying.UpdateAmount(ingredient.AmountInDefaultMeasure);
+                        _buyingsRepository.Update(buying);
+                    }
+                }
+            }
+
+            var receipt = BarManagment.Domain.DomainEntities.Receipt.Create(null, barmen, false, drinks, coctails, barmen.CompanyCode);
             await _receiptRepository.AddAsync(receipt);
             await _receiptRepository.SaveChangesAsync();
 
             return receipt;
         }
+
     }
 }

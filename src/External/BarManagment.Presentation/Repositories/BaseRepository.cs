@@ -33,6 +33,7 @@ namespace BarManagment.Persistance.Repositories
             var query = this.GetQuery(track, predicate, include);
             return await query.FirstOrDefaultAsync();
         }
+
         private IQueryable<T> GetQuery(bool track, Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, Expression<Func<T, T>> selector = null)
         {
             IQueryable<T> query = this._dbSet;

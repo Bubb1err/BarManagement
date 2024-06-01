@@ -2,6 +2,7 @@
 using BarManagment.Application.Coctails.Commands.UpdateCoctail;
 using BarManagment.Application.Coctails.Queries.GetCoctailById;
 using BarManagment.Application.Coctails.Queries.GetCoctails;
+using BarManagment.Application.Coctails.Queries.SearchCoctails;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@ namespace BarManagement.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetCoctails()
+        public async Task<IActionResult> GetCoctails([FromQuery]Guid userId, [FromQuery]string? search)
         {
-            var coctails = await _mediator.Send(new GetCoctailsQuery());
+            var coctails = await _mediator.Send(new GetCoctailsQuery(userId, search));
             return Ok(coctails);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoctail(Guid id)
         {
@@ -33,6 +36,14 @@ namespace BarManagement.API.Controllers
 
             return Ok(coctail);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchCoctails(string search)
+        {
+            var searchCoctailsQuery = new SearchCoctailsQuery(search);
+            return Ok(await _mediator.Send(searchCoctailsQuery));
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveCoctail([FromBody] SaveCoctailCommand saveCoctailCommand)
         {

@@ -1,6 +1,4 @@
-﻿﻿
-
-@model IEnumerable<BarManagement.UI.Models.Coctails.CoctailViewModel>
+﻿@model IEnumerable<BarManagement.UI.Models.Coctails.CoctailViewModel>
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -8,6 +6,9 @@
             <h2>
                 Coctails
             </h2>
+        </div>
+        <div class="col-6">
+            <input type="text" id="search-input" class="form-control" placeholder="Search coctails..." />
         </div>
     </div>
     <br />
@@ -27,7 +28,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="coctails-table-body">
             @foreach (var obj in Model)
             {
                 <tr>
@@ -41,8 +42,41 @@
                         @obj.Price
                     </td>
                     <td> <a class="btn btn-primary btn-custom" asp-controller="Coctails" asp-action="GetCoctailDetails" asp-route-coctailId="@obj.Id">Details</a></td>
-                </tr> 
+                </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#search-input').on('input', function () {
+                var search = $(this).val();
+                console.log(search)
+                $.ajax({
+                    url: '@Url.Action("GetAllSearch", "Coctails")',
+                    type: 'GET',
+                    data: { search: search },
+                    success: function (data) {
+                        var tbody = $('#coctails-table-body');
+                        tbody.empty();
+                        $.each(data, function (index, coctail) {
+                            console.log(data)
+                            tbody.append('<tr>'
+                                + '<td>' + coctail.name + '</td>'
+                                + '<td>' + coctail.description + '</td>'
+                                + '<td>' + coctail.price + '</td>'
+                                + '<td><a class="btn btn-primary btn-custom" href="/Coctails/GetCoctailDetails?coctailId=' + coctail.id + '">Details</a></td>'
+                                + '</tr>');
+                        });
+                    },
+                    error: function () {
+                        alert('Error loading coctails');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -7,12 +7,16 @@ namespace BarManagment.Domain.DomainEntities
     {
         private DefaultMeasure(
             Guid id, 
-            string measure) 
+            string measure,
+            string companyCode) 
             : base(id)
         {
             Measure = measure;
+            CompanyCode = companyCode;
         }
         private DefaultMeasure() { }
         public string Measure {  get; private set; }
+
+        public string CompanyCode { get; private set; }
     }
 }

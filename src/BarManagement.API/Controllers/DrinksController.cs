@@ -2,7 +2,7 @@
 using BarManagment.Application.Drinks.Commands.UpdateDrink;
 using BarManagment.Application.Drinks.Queries.GetDrinkById;
 using BarManagment.Application.Drinks.Queries.GetDrinks;
-using BarManagment.Application.Drinks.Queries.Search;
+using BarManagment.Application.Drinks.Queries.SearchDrinks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,16 +27,16 @@ namespace BarManagement.API.Controllers
             return Ok(drink);
         }
         [HttpGet]
-        public async Task<IActionResult> GetDrinks()
+        public async Task<IActionResult> GetDrinks([FromQuery]Guid userId)
         {
-            var drinks = await _mediator.Send(new GetDrinksQuery());
+            var drinks = await _mediator.Send(new GetDrinksQuery(userId));
             return Ok(drinks);
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchDrink([FromQuery]string search)
+        public async Task<IActionResult> Search([FromQuery]string search)
         {
-            var searchDrinksQuery = new GetDrinkBySearchQuery(search);
+            var searchDrinksQuery = new SearchDrinkQuery(search);
             return Ok(await _mediator.Send(searchDrinksQuery));
         }
 

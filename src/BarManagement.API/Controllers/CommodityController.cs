@@ -22,9 +22,9 @@ namespace BarManagement.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IEnumerable<Commodity>> GetAll()
+        public async Task<IEnumerable<Commodity>> GetAll([FromQuery]Guid userId)
         {
-            var getAllCommodityQuery = new GetAllCommodityQuery();
+            var getAllCommodityQuery = new GetAllCommodityQuery(userId);
             var commodities = await _mediator.Send(getAllCommodityQuery);
             return commodities;
         }
@@ -43,6 +43,7 @@ namespace BarManagement.API.Controllers
             var commodity = await _mediator.Send(saveCommodityCommand);
             return Ok(commodity);
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdateCommodity([FromBody]UpdateCommodityCommand updateCommodityCommand)
         {

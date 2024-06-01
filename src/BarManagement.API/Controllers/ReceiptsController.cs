@@ -22,9 +22,9 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]Guid userId)
         {
-            var getAllReceiptsQuery = new GetAllReceiptsQuery();
+            var getAllReceiptsQuery = new GetAllReceiptsQuery(userId);
 
             return Ok(await _mediator.Send(getAllReceiptsQuery));
         }

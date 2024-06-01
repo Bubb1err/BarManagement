@@ -10,7 +10,8 @@ namespace BarManagment.Domain.DomainEntities
             string title,
             decimal price, 
             string? description, 
-            DefaultMeasure defaultMeasure)
+            DefaultMeasure defaultMeasure,
+            string companyCode)
             :base (id)
         {
             Title = title;
@@ -18,6 +19,7 @@ namespace BarManagment.Domain.DomainEntities
             Description = description;
             DefaultMeasureId = defaultMeasure.Id;
             DefaultMeasure = defaultMeasure;
+            CompanyCode = companyCode;
         }
 
         private Commodity() { }
@@ -32,14 +34,17 @@ namespace BarManagment.Domain.DomainEntities
 
         public DefaultMeasure DefaultMeasure { get; private set; }
 
-        public static Commodity Create(string title, decimal price, DefaultMeasure defaultMeasure, string? description)
+        public string CompanyCode { get; private set; }
+
+        public static Commodity Create(string title, decimal price, DefaultMeasure defaultMeasure, string? description, string companyCode)
         {
             return new Commodity(
                 Guid.NewGuid(),
                 title,
                 price,
                 description,
-                defaultMeasure);
+                defaultMeasure,
+                companyCode);
         }
 
         public void Update(string title, decimal price, DefaultMeasure defaultMeasure, string? description)

@@ -17,10 +17,22 @@ namespace BarManagment.Persistance.Configurations
             builder.Property(receipt => receipt.IsPaid).HasDefaultValue(false);
 
             builder.HasMany(receipt => receipt.Coctails)
-                .WithMany();
+                .WithMany()
+                .UsingEntity(
+                    j =>
+                {
+                    j.IndexerProperty<int>("Id");
+                    j.HasKey("Id");
+                });
 
             builder.HasMany(receipt => receipt.Drinks)
-                .WithMany();
+                .WithMany()
+                .UsingEntity(
+                    j =>
+                    {
+                        j.IndexerProperty<int>("Id");
+                        j.HasKey("Id");
+                    });
 
             builder.HasOne<User>()
                 .WithMany()

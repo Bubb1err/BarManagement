@@ -5,9 +5,11 @@ namespace BarManagment.Application.Commoditys.Queries.GetAllCommodity
 {
     public class GetAllCommodityQuery : IRequest<IEnumerable<Commodity>>
     {
-        public GetAllCommodityQuery()
+        public GetAllCommodityQuery(Guid userId)
         {
-            
+            UserId = userId;
         }
+
+        public Guid UserId { get; }
     }
 }

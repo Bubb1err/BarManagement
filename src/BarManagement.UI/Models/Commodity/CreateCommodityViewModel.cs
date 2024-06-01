@@ -8,11 +8,13 @@ namespace BarManagement.UI.Models.Commodity
         public string Title { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         public string? Description { get; set; }
 
         [Required]
         public Guid DefaultMeasureId { get; set; }
+
+        public string? UserId { get; set; }
     }
 }

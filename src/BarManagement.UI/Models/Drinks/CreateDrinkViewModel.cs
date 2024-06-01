@@ -11,12 +11,14 @@ namespace BarManagement.UI.Models.Drinks
         public string Description { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         public Guid CommodityId { get; set; }
 
         [Required]
         public double AmountInDefaultMeasure { get; set; }
+
+        public string? UserId { get; set; }
     }
 }
