@@ -34,9 +34,9 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery]string search)
+        public async Task<IActionResult> Search([FromQuery]Guid userId, [FromQuery]string search)
         {
-            var searchDrinksQuery = new SearchDrinkQuery(search);
+            var searchDrinksQuery = new SearchDrinkQuery(userId, search);
             return Ok(await _mediator.Send(searchDrinksQuery));
         }
 

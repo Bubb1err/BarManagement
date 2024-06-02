@@ -10,6 +10,6 @@ namespace BarManagment.Domain.Abstractions.Repository
 
         Task<Buying?> GetLastBuying(Guid commodityId);
 
-        IQueryable<SpendingViewModel> GetSpendings();
+        IQueryable<SpendingViewModel> GetSpendings(string companyCode);
     }
 }

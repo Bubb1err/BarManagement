@@ -26,9 +26,9 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpGet("spendings")]
-        public async Task<IActionResult> GetSpendings()
+        public async Task<IActionResult> GetSpendings([FromQuery]Guid userId)
         {
-            return Ok(await _mediator.Send(new GetSpendingsQuery()));
+            return Ok(await _mediator.Send(new GetSpendingsQuery(userId)));
         }
 
         [HttpPost]

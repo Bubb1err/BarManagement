@@ -38,9 +38,9 @@ namespace BarManagement.API.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchCoctails(string search)
+        public async Task<IActionResult> SearchCoctails([FromQuery] Guid userId, [FromQuery]string search)
         {
-            var searchCoctailsQuery = new SearchCoctailsQuery(search);
+            var searchCoctailsQuery = new SearchCoctailsQuery(userId, search);
             return Ok(await _mediator.Send(searchCoctailsQuery));
         }
 

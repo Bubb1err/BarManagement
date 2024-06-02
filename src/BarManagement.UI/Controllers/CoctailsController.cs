@@ -108,9 +108,10 @@ namespace BarManagement.UI.Controllers
         {
             HttpClient client = new HttpClient();
             string token = Request.Cookies[CookiesNames.JwtToken];
+            var userId = _jwtParser.GetIdFromToken(token);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
-            var response = await client.GetAsync($"{_configuration["BarManagementAPI:SearchCoctails"]}?search={search}");
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:SearchCoctails"]}?userId={userId}&search={search}");
 
             if (response.IsSuccessStatusCode)
             {

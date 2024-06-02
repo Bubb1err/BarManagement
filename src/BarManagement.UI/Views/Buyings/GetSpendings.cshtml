@@ -21,6 +21,9 @@
                 <th>
                     Amount Spent
                 </th>
+                <th>
+                    Date
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +35,9 @@
                     </td>
                     <td>
                         @obj.AmountSpent
+                    </td>
+                    <td>
+                        @obj.Date.ToLongDateString()
                     </td>
                 </tr>
             }

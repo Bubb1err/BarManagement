@@ -7,5 +7,7 @@
         public string CommodityTitle { get; set; }
 
         public double AmountSpent { get; set; }
+
+        public DateTime Date {  get; set; }
     }
 }

@@ -38,10 +38,10 @@ namespace BarManagment.Persistance.Repositories
             return buying;
         }
 
-        public IQueryable<SpendingViewModel> GetSpendings()
+        public IQueryable<SpendingViewModel> GetSpendings(string companyCode)
         {
             var spendings = _context.Database
-                .SqlQuery<SpendingViewModel>($@"EXEC [dbo].[GetSpendings]");
+                .SqlQuery<SpendingViewModel>($@"EXEC [dbo].[GetSpendings] @companyCode={companyCode}");
 
             return spendings;
         }

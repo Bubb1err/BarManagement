@@ -56,8 +56,9 @@ namespace BarManagement.UI.Controllers
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_configuration["BarManagementAPI:APIHostUrl"]);
             string token = Request.Cookies[CookiesNames.JwtToken];
+            var userId = _jwtParser.GetIdFromToken(token);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await client.GetAsync(_configuration["BarManagementAPI:SpendingsEndpoint"]);
+            var response = await client.GetAsync($"{_configuration["BarManagementAPI:SpendingsEndpoint"]}?userId={userId}");
 
             if (response.IsSuccessStatusCode)
             {

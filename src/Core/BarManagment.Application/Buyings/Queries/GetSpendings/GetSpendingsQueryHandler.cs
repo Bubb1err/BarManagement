@@ -23,7 +23,7 @@ namespace BarManagment.Application.Buyings.Queries.GetSpendings
         {
             var user = await _usersRepository.GetFirstOrDefaultAsync(u => u.Id == request.UserId);
 
-            var spendings = await _buyingsRepository.GetSpendings().ToListAsync();
+            var spendings = await _buyingsRepository.GetSpendings(user.CompanyCode).ToListAsync();
             return spendings;
         }
     }
